@@ -1,3 +1,4 @@
 {
-  "cSpell.words": ["theodinproject"]
+  "cSpell.words": ["theodinproject"],
+  "typescript.tsdk": "node_modules\\typescript\\lib"
 }
