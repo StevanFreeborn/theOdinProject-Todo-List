@@ -7,3 +7,5 @@ const newTodo = createTodo({
     priority: 'High',
 });
 console.log(newTodo.title);
+newTodo.title = 'Hello';
+console.log(newTodo.title);
