@@ -1,3 +1,4 @@
+import { isNullOrWhiteSpace } from '../utils/strings.js';
 var Priority;
 (function (Priority) {
     Priority["High"] = "High";
@@ -6,6 +7,9 @@ var Priority;
 })(Priority || (Priority = {}));
 export function createTodo({ title, description, dueDate, priority, }) {
     function validateTitle({ title }) {
+        if (isNullOrWhiteSpace({ str: title })) {
+            throw new Error('Title is required');
+        }
         if (title.length > 150) {
             throw new Error('Title cannot be longer than 255 characters');
         }

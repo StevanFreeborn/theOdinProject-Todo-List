@@ -1,11 +1,12 @@
-import { createTodo } from './models/todo.js';
-document.getElementById('content').innerText = 'Hello World';
-const newTodo = createTodo({
-    title: 'A Task',
-    description: 'A task that needs doing',
-    dueDate: new Date(),
-    priority: 'High',
+import Layout from './Layout.js';
+import { navigate, router } from './router.js';
+const root = document.getElementById('root');
+root.innerHTML = Layout();
+window.addEventListener('popstate', router);
+document.body.addEventListener('click', (e) => {
+    if (e.target.matches('[data-link]')) {
+        e.preventDefault();
+        navigate(e.target.href);
+    }
 });
-console.log(newTodo.title);
-newTodo.title = 'Hello';
-console.log(newTodo.title);
+router();

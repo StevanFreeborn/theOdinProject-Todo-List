@@ -13,8 +13,8 @@
   "author": "Stevan Freeborn",
   "license": "MIT",
   "devDependencies": {
-    "@types/jsdom": "^21.1.1",
     "@types/chai": "^4.3.5",
+    "@types/jsdom": "^21.1.1",
     "@types/mocha": "^10.0.1",
     "@types/node": "^20.2.3",
     "@types/sinon": "^10.0.15",
