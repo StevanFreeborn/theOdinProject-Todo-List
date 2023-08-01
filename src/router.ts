@@ -18,7 +18,7 @@ type Match = {
 
 export function router() {
   const routes: Route[] = [{ path: '/', view: MyDay }].map(route => {
-    route.path = 'theOdinProject-Todo-List' + route.path;
+    route.path = '/theOdinProject-Todo-List' + route.path;
     return route;
   });
 
