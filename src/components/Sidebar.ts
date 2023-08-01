@@ -6,7 +6,7 @@ function NavListItem({ linkText, href }: { linkText: string; href: string }) {
   });
 
   const navListItemMouseOver = (e: HTMLElement) => {
-    e.style.backgroundColor = 'grey';
+    e.style.backgroundColor = '#424242';
   };
 
   const navListItemMouseOut = (e: HTMLElement) => {

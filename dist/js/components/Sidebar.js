@@ -4,7 +4,7 @@ function NavListItem({ linkText, href }) {
         padding: '0.25rem 1rem',
     });
     const navListItemMouseOver = (e) => {
-        e.style.backgroundColor = 'grey';
+        e.style.backgroundColor = '#424242';
     };
     const navListItemMouseOut = (e) => {
         e.style.backgroundColor = '';
