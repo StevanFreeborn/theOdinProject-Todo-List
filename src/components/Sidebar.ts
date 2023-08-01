@@ -1,5 +1,36 @@
 import { inlineStyles } from '../utils/styles.js';
 
+function NavListItem({ linkText, href }: { linkText: string; href: string }) {
+  const navListItemStyles = inlineStyles({
+    padding: '0.25rem 1rem',
+  });
+
+  const navListItemMouseOver = (e: HTMLElement) => {
+    e.style.backgroundColor = 'grey';
+  };
+
+  const navListItemMouseOut = (e: HTMLElement) => {
+    e.style.backgroundColor = '';
+  };
+
+  const navLinkStyles = inlineStyles({
+    color: '#ffffff',
+    whiteSpace: 'nowrap',
+  });
+
+  return /*html*/ `
+    <a href="${href}" style="${navLinkStyles}">
+      <li 
+        onmouseover="(${navListItemMouseOver})(this)" 
+        onmouseout="(${navListItemMouseOut})(this)" 
+        style="${navListItemStyles}"
+      >
+        ${linkText}
+      </li>
+    </a>
+  `;
+}
+
 export default function SideBar() {
   const asideStyles = inlineStyles({
     flex: '15%',
@@ -11,44 +42,49 @@ export default function SideBar() {
     display: 'flex',
     flexDirection: 'column',
     gap: '1rem',
+    padding: '1rem 0rem',
   });
 
-  const navListStyles = inlineStyles({});
-
-  const navListItemStyles = inlineStyles({
-    padding: '0.25rem 1rem',
+  const navListTitleStyles = inlineStyles({
+    padding: '0rem 1rem',
+    fontSize: '1.15rem',
+    color: '#ffffff',
+    fontWeight: 'bold',
   });
 
-  const navListItemMouseOver = (e: Event & { target: HTMLLIElement }) => {
-    e.target.style.backgroundColor = 'red';
-  };
+  const navListStyles = inlineStyles({
+    display: 'flex',
+    flexDirection: 'column',
+  });
 
-  const navLinkStyles = inlineStyles({});
+  const primaryNavLinkItems = [
+    { linkText: 'My Day', href: '#' },
+    { linkText: 'Next 7 Days', href: '#' },
+    { linkText: 'All my tasks', href: '#' },
+  ];
+
+  const secondaryNavLinkItems = [{ linkText: 'Inbox', href: '#' }];
 
   return /*html*/ `
     <aside style="${asideStyles}">
       <nav style="${navStyles}">
         <ul style="${navListStyles}">
-          <li onmouseover="${navListItemMouseOver}()" style="${navListItemStyles}">
-            <a href="#">My Day</a>
-          </li>
-          <li style="${navListItemStyles}">
-            <a href="#" style="${navLinkStyles}>Next 7 Days</a>
-          </li>
-          <li style="${navListItemStyles}">
-            <a href="#" style="${navLinkStyles}">All my tasks</a>
-          </li>
+          ${primaryNavLinkItems
+            .map(item =>
+              NavListItem({ linkText: item.linkText, href: item.href })
+            )
+            .join('')}
         </ul>
-        <ul style="${navListStyles}">
-          <li style="${navListItemStyles}">
-            <div>Lists</div>
-            <ul style="${navListStyles}">
-              <li style="${navListItemStyles}">
-                <a href="#" style="${navLinkStyles}">Inbox</a>
-              </li>
-            </ul>
-          </li>
-        </ul>
+        <div>
+          <div style="${navListTitleStyles}">My lists</div>
+          <ul style="${navListStyles}">
+          ${secondaryNavLinkItems
+            .map(item =>
+              NavListItem({ linkText: item.linkText, href: item.href })
+            )
+            .join('')}
+          </ul>
+        </div
       </nav>
     </aside>`;
 }
