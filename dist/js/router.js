@@ -2,7 +2,7 @@ import MyDay from './views/MyDay.js';
 import NotFound from './views/NotFound.js';
 export function router() {
     const routes = [{ path: '/', view: MyDay }].map(route => {
-        route.path = 'theOdinProject-Todo-List' + route.path;
+        route.path = '/theOdinProject-Todo-List' + route.path;
         return route;
     });
     // match path from beginning to end
