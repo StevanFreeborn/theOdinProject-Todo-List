@@ -17,7 +17,10 @@ type Match = {
 };
 
 export function router() {
-  const routes: Route[] = [{ path: '/', view: MyDay }];
+  const routes: Route[] = [{ path: '/', view: MyDay }].map(route => {
+    route.path = 'theOdinProject-Todo-List' + route.path;
+    return route;
+  });
 
   // match path from beginning to end
   // escape forward slashes
