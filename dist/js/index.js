@@ -1,4 +1,4 @@
-import Layout from './Layout.js';
+import Layout from './layout.js';
 import { navigate, router } from './router.js';
 const root = document.getElementById('root');
 root.innerHTML = Layout();
