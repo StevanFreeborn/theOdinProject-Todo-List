@@ -1,13 +1,20 @@
 import CopyPlugin from 'copy-webpack-plugin';
+import dotenv from 'dotenv';
 import Dotenv from 'dotenv-webpack';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import path from 'path';
 import { Configuration } from 'webpack';
 import 'webpack-dev-server';
+import { isNullOrWhiteSpace } from './src/utils/strings';
 
 const config = (env, argv): Configuration => {
-  const publicPath =
-    argv.mode === 'development' ? '' : '/theOdinProject-Todo-List';
+  dotenv.config({
+    path: `.env.${argv.mode}`,
+  });
+
+  const publicPath = isNullOrWhiteSpace({ str: process.env.BASE_PATH })
+    ? '/'
+    : process.env.BASE_PATH;
 
   return {
     entry: './src/index.ts',
@@ -15,11 +22,16 @@ const config = (env, argv): Configuration => {
       filename: 'index.js',
       path: path.resolve(__dirname, 'dist'),
       clean: true,
+      publicPath: publicPath,
     },
     devtool: 'inline-source-map',
     module: {
       rules: [
         { test: /\.ts$/, use: 'ts-loader', exclude: [/node_modules/, /tests/] },
+        {
+          test: /\.css$/i,
+          use: ['css-loader'],
+        },
       ],
     },
     resolve: {

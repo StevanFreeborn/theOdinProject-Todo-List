@@ -1,3 +1,4 @@
+import './assets/index.css';
 import Layout from './layout';
 import { navigate, router } from './router';
 
