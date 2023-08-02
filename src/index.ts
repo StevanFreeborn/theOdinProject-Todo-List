@@ -8,10 +8,11 @@ window.addEventListener('popstate', router);
 
 document.body.addEventListener(
   'click',
-  (e: Event & { target: HTMLAnchorElement }) => {
-    if (e.target.matches('[data-link]')) {
+  (e: Event & { target: HTMLElement }) => {
+    const link = e.target.closest('a');
+    if (link.matches('[data-link]')) {
       e.preventDefault();
-      navigate(e.target.href);
+      navigate(link.href);
     }
   }
 );

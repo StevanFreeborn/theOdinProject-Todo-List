@@ -19,7 +19,7 @@ function NavListItem({ linkText, href }: { linkText: string; href: string }) {
   });
 
   return /*html*/ `
-    <a href="${href}" style="${navLinkStyles}">
+    <a href="${href}" style="${navLinkStyles}" data-link>
       <li 
         onmouseover="(${navListItemMouseOver})(this)" 
         onmouseout="(${navListItemMouseOut})(this)" 
