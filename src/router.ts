@@ -1,3 +1,4 @@
+import AddList from './views/AddList';
 import MyDay from './views/MyDay';
 import NotFound from './views/NotFound';
 
@@ -17,7 +18,10 @@ type Match = {
 };
 
 export function router() {
-  const routes: Route[] = [{ path: '/', view: MyDay }].map(route => {
+  const routes: Route[] = [
+    { path: '/', view: MyDay },
+    { path: '/lists/add', view: AddList },
+  ].map(route => {
     route.path = process.env.BASE_PATH + route.path;
     return route;
   });
