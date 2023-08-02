@@ -1,3 +1,4 @@
+import CopyPlugin from 'copy-webpack-plugin';
 import Dotenv from 'dotenv-webpack';
 import HtmlWebpackPlugin from 'html-webpack-plugin';
 import path from 'path';
@@ -13,6 +14,7 @@ const config = (env, argv): Configuration => {
     output: {
       filename: 'index.js',
       path: path.resolve(__dirname, 'dist'),
+      clean: true,
     },
     devtool: 'inline-source-map',
     module: {
@@ -30,14 +32,17 @@ const config = (env, argv): Configuration => {
       new HtmlWebpackPlugin({
         title: 'Get It Done',
         filename: 'index.html',
-        template: 'src/assets/index.html',
+        template: path.resolve(__dirname, 'src', 'assets', 'index.html'),
         publicPath: publicPath,
       }),
       new HtmlWebpackPlugin({
         title: 'Get It Done',
         filename: '404.html',
-        template: 'src/assets/404.html',
+        template: path.resolve(__dirname, 'src', 'assets', '404.html'),
         publicPath: publicPath,
+      }),
+      new CopyPlugin({
+        patterns: [path.resolve(__dirname, 'src', 'assets', 'index.css')],
       }),
     ],
     optimization: {
