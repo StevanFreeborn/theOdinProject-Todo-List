@@ -1,5 +1,5 @@
-import SideBar from './components/Sidebar.js';
-import { inlineStyles } from './utils/styles.js';
+import SideBar from './components/Sidebar';
+import { inlineStyles } from './utils/styles';
 
 export default function Layout() {
   const containerStyles = inlineStyles({

@@ -1,5 +1,5 @@
-import MyDay from './views/MyDay.js';
-import NotFound from './views/NotFound.js';
+import MyDay from './views/MyDay';
+import NotFound from './views/NotFound';
 
 type ViewProps = {
   pathParams: { [key: string]: string };
@@ -18,7 +18,7 @@ type Match = {
 
 export function router() {
   const routes: Route[] = [{ path: '/', view: MyDay }].map(route => {
-    route.path = '/theOdinProject-Todo-List' + route.path;
+    route.path = process.env.BASE_PATH + route.path;
     return route;
   });
 

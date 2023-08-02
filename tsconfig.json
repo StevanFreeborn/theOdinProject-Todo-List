@@ -8,11 +8,7 @@
     "module": "esnext",
     "moduleResolution": "node",
     "esModuleInterop": true,
-    "plugins": [
-      {
-        "name": "typescript-lit-html-plugin"
-      }
-    ]
+    "sourceMap": true
   },
   "include": ["src"],
   "exclude": ["node_modules"]
