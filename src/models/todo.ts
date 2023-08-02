@@ -1,4 +1,4 @@
-import { isNullOrWhiteSpace } from '../utils/strings.js';
+import { isNullOrWhiteSpace } from '../utils/strings';
 
 enum Priority {
   High = 'High',

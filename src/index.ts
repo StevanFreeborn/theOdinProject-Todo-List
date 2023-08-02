@@ -1,5 +1,5 @@
-import Layout from './layout.js';
-import { navigate, router } from './router.js';
+import Layout from './layout';
+import { navigate, router } from './router';
 
 const root = document.getElementById('root');
 root.innerHTML = Layout();

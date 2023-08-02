@@ -1,4 +1,4 @@
-import { inlineStyles } from '../utils/styles.js';
+import { inlineStyles } from '../utils/styles';
 
 function NavListItem({ linkText, href }: { linkText: string; href: string }) {
   const navListItemStyles = inlineStyles({
