@@ -22,5 +22,8 @@ module.exports = (env, argv) => {
         path: `.env.${argv.mode}`,
       }),
     ],
+    optimization: {
+      minimize: false,
+    },
   };
 };
