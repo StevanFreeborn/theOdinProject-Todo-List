@@ -9,6 +9,7 @@ export default function Layout() {
 
   const mainStyles = inlineStyles({
     flex: '85%',
+    padding: '1rem',
   });
 
   return /*html*/ `
