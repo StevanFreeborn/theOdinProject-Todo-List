@@ -1,10 +1,7 @@
 import { inlineStyles } from '../utils/styles';
+import Link from './Link';
 
 function NavListItem({ linkText, href }: { linkText: string; href: string }) {
-  const navListItemStyles = inlineStyles({
-    padding: '0.25rem 1rem',
-  });
-
   const navListItemMouseOver = (e: HTMLElement) => {
     e.style.backgroundColor = '#424242';
   };
@@ -16,18 +13,19 @@ function NavListItem({ linkText, href }: { linkText: string; href: string }) {
   const navLinkStyles = inlineStyles({
     color: '#ffffff',
     whiteSpace: 'nowrap',
+    width: '100%',
+    display: 'flex',
+    padding: '0.25rem 1rem',
   });
 
   return /*html*/ `
-    <a href="${href}" style="${navLinkStyles}" data-link>
-      <li 
-        onmouseover="(${navListItemMouseOver})(this)" 
-        onmouseout="(${navListItemMouseOut})(this)" 
-        style="${navListItemStyles}"
-      >
-        ${linkText}
-      </li>
-    </a>
+    <li 
+      onmouseover="(${navListItemMouseOver})(this)" 
+      onmouseout="(${navListItemMouseOut})(this)" 
+      
+    >
+      ${Link({ linkText, href, styles: navLinkStyles })}
+    </li>
   `;
 }
 
