@@ -1,6 +1,9 @@
 {
   "ts-node": {
-    "files": true
+    "files": true,
+    "compilerOptions": {
+      "module": "CommonJS"
+    }
   },
   "compilerOptions": {
     "outDir": "./dist/js",
@@ -8,8 +11,9 @@
     "module": "esnext",
     "moduleResolution": "node",
     "esModuleInterop": true,
-    "sourceMap": true
+    "sourceMap": true,
+    "allowSyntheticDefaultImports": true
   },
-  "include": ["src"],
+  "include": ["src", "webpack.config.ts"],
   "exclude": ["node_modules"]
 }

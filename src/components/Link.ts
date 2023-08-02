@@ -10,8 +10,12 @@ export default function Link({
   linkText,
   href,
   styles,
-  onMouseOver,
-  onMouseOut,
+  onMouseOver = () => {
+    return;
+  },
+  onMouseOut = () => {
+    return;
+  },
 }: LinkProps) {
   // if href is an absolute one append
   // the envs base path.

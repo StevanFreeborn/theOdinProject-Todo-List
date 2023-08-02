@@ -10,7 +10,7 @@ document.body.addEventListener(
   'click',
   (e: Event & { target: HTMLElement }) => {
     const link = e.target.closest('a');
-    if (link.matches('[data-link]')) {
+    if (link !== null && link.matches('[data-link]')) {
       e.preventDefault();
       navigate(link.href);
     }
