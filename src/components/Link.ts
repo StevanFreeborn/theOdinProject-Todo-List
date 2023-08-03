@@ -19,7 +19,7 @@ export default function Link({
 }: LinkProps) {
   // if href is an absolute one append
   // the envs base path.
-  const hrefText = /^\/$/.test(href) ? process.env.BASE_PATH + href : href;
+  const hrefText = /^\//.test(href) ? process.env.BASE_PATH + href : href;
 
   return /*html*/ `
     <a
