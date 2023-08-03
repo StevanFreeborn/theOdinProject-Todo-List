@@ -4,12 +4,12 @@ import Link from './Link';
 import NavListItem from './NavListItem';
 
 export default function MyLists() {
-  const navListStyles = inlineStyles({
+  const myListStyles = inlineStyles({
     display: 'flex',
     flexDirection: 'column',
   });
 
-  const navListTitleContainer = inlineStyles({
+  const myListTitleContainer = inlineStyles({
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'space-between',
@@ -17,7 +17,7 @@ export default function MyLists() {
     color: '#ffffff',
   });
 
-  const navListTitleStyles = inlineStyles({
+  const myListTitleStyles = inlineStyles({
     fontSize: '1.15rem',
     fontWeight: 'bold',
   });
@@ -29,18 +29,18 @@ export default function MyLists() {
 
   const { getAllLists } = listService();
   const allLists = getAllLists();
-  const listNavItems = allLists.map(list => ({
+  const myListItems = allLists.map(list => ({
     linkText: list.name,
     href: `/lists/${list.id}`,
   }));
 
-  const secondaryNavLinkItems = [{ linkText: 'Inbox', href: '#' }].concat(
-    listNavItems
+  const myListNavLinkItems = [{ linkText: 'Inbox', href: '#' }].concat(
+    myListItems
   );
 
   return /*html*/ `
-    <div style="${navListTitleContainer}">
-      <div style="${navListTitleStyles}">My lists</div>
+    <div style="${myListTitleContainer}">
+      <div style="${myListTitleStyles}">My lists</div>
       ${Link({
         linkText: '+',
         href: '/lists/add',
@@ -49,8 +49,8 @@ export default function MyLists() {
         onMouseOut: (e, t) => (t.style.color = ''),
       })}
     </div>
-    <ul style="${navListStyles}">
-      ${secondaryNavLinkItems
+    <ul style="${myListStyles}">
+      ${myListNavLinkItems
         .map(item => NavListItem({ linkText: item.linkText, href: item.href }))
         .join('')}
     </ul>
