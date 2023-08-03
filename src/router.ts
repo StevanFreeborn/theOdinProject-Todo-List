@@ -1,7 +1,12 @@
+import AddList from './views/AddList';
+import AllMyTasks from './views/AllMyTasks';
+import Inbox from './views/Inbox';
+import ListDetail from './views/ListDetail';
 import MyDay from './views/MyDay';
+import NextWeek from './views/NextWeek';
 import NotFound from './views/NotFound';
 
-type ViewProps = {
+export type ViewProps = {
   pathParams: { [key: string]: string };
   queryParams: { [key: string]: string };
 };
@@ -17,7 +22,14 @@ type Match = {
 };
 
 export function router() {
-  const routes: Route[] = [{ path: '/', view: MyDay }].map(route => {
+  const routes: Route[] = [
+    { path: '/', view: Inbox },
+    { path: '/my-day', view: MyDay },
+    { path: '/next-seven-days', view: NextWeek },
+    { path: '/tasks', view: AllMyTasks },
+    { path: '/lists/add', view: AddList },
+    { path: '/lists/:id', view: ListDetail },
+  ].map(route => {
     route.path = process.env.BASE_PATH + route.path;
     return route;
   });
@@ -49,7 +61,10 @@ export function router() {
 
   const pathParams = [...match.route.path.matchAll(/:(\w+)/g)]
     .map(result => result[1])
-    .reduce((prev, curr, i) => (prev[curr] = match.result.slice(1)[i]), {});
+    .reduce(
+      (prev, curr, i) => ({ ...prev, [curr]: match.result.slice(1)[i] }),
+      {}
+    );
 
   const queryString = match.route.path.split('?')[1];
   const queryParams =

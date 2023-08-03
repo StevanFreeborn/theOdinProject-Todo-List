@@ -4,9 +4,10 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Get It Done</title>
-  <link rel="stylesheet" href="styles/index.css">
-  <script type="module" src="js/index.js" defer></script>
+  <link rel="stylesheet" href="<%= webpackConfig.output.publicPath %>index.css">
+  <title>
+    <%= htmlWebpackPlugin.options.title %>
+  </title>
 </head>
 
 <body>

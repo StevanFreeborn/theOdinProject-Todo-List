@@ -1,10 +1,8 @@
 import { inlineStyles } from '../utils/styles';
+import Link from './Link';
+import MyLists from './MyLists';
 
 function NavListItem({ linkText, href }: { linkText: string; href: string }) {
-  const navListItemStyles = inlineStyles({
-    padding: '0.25rem 1rem',
-  });
-
   const navListItemMouseOver = (e: HTMLElement) => {
     e.style.backgroundColor = '#424242';
   };
@@ -16,24 +14,25 @@ function NavListItem({ linkText, href }: { linkText: string; href: string }) {
   const navLinkStyles = inlineStyles({
     color: '#ffffff',
     whiteSpace: 'nowrap',
+    width: '100%',
+    display: 'flex',
+    padding: '0.25rem 1rem',
   });
 
   return /*html*/ `
-    <a href="${href}" style="${navLinkStyles}">
-      <li 
-        onmouseover="(${navListItemMouseOver})(this)" 
-        onmouseout="(${navListItemMouseOut})(this)" 
-        style="${navListItemStyles}"
-      >
-        ${linkText}
-      </li>
-    </a>
+    <li 
+      onmouseover="(${navListItemMouseOver})(this)" 
+      onmouseout="(${navListItemMouseOut})(this)" 
+      
+    >
+      ${Link({ linkText, href, styles: navLinkStyles })}
+    </li>
   `;
 }
 
 export default function SideBar() {
   const asideStyles = inlineStyles({
-    flex: '15%',
+    width: '200px',
     backgroundColor: '#0093E9',
     backgroundImage: 'linear-gradient(160deg, #0093E9 0%, #80D0C7 100%)',
   });
@@ -45,25 +44,24 @@ export default function SideBar() {
     padding: '1rem 0rem',
   });
 
-  const navListTitleStyles = inlineStyles({
-    padding: '0rem 1rem',
-    fontSize: '1.15rem',
-    color: '#ffffff',
-    fontWeight: 'bold',
-  });
-
   const navListStyles = inlineStyles({
     display: 'flex',
     flexDirection: 'column',
   });
 
-  const primaryNavLinkItems = [
-    { linkText: 'My Day', href: '#' },
-    { linkText: 'Next 7 Days', href: '#' },
-    { linkText: 'All my tasks', href: '#' },
-  ];
+  const now = new Date();
+  const sevenDaysLater = new Date(now);
+  sevenDaysLater.setDate(now.getDate() + 7);
 
-  const secondaryNavLinkItems = [{ linkText: 'Inbox', href: '#' }];
+  const primaryNavLinkItems = [
+    { linkText: 'Inbox', href: '/' },
+    { linkText: 'My Day', href: '/my-day' },
+    {
+      linkText: 'Next 7 Days',
+      href: `/next-seven-days`,
+    },
+    { linkText: 'All my tasks', href: '/tasks' },
+  ];
 
   return /*html*/ `
     <aside style="${asideStyles}">
@@ -75,16 +73,9 @@ export default function SideBar() {
             )
             .join('')}
         </ul>
-        <div>
-          <div style="${navListTitleStyles}">My lists</div>
-          <ul style="${navListStyles}">
-          ${secondaryNavLinkItems
-            .map(item =>
-              NavListItem({ linkText: item.linkText, href: item.href })
-            )
-            .join('')}
-          </ul>
-        </div
+        <div id="myListsContainer">
+          ${MyLists()}
+        </div>
       </nav>
     </aside>`;
 }

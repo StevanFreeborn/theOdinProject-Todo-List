@@ -1,3 +1,4 @@
+import { generateId } from '../utils/id';
 import { isNullOrWhiteSpace } from '../utils/strings';
 
 enum Priority {
@@ -13,7 +14,7 @@ type TodoParams = {
   priority: Priority;
 };
 
-type Todo = TodoParams;
+export type Todo = { id: string } & TodoParams;
 
 export function createTodo({
   title,
@@ -27,15 +28,15 @@ export function createTodo({
     }
 
     if (title.length > 150) {
-      throw new Error('Title cannot be longer than 255 characters');
+      throw new Error('Title cannot be longer than 150 characters');
     }
 
     return title;
   }
 
   function validateDescription({ description }: { description: string }) {
-    if (description.length > 150) {
-      throw new Error('Title cannot be longer than 255 characters');
+    if (description.length > 255) {
+      throw new Error('Description cannot be longer than 255 characters');
     }
 
     return description;
@@ -55,12 +56,16 @@ export function createTodo({
     return priorityEnum;
   }
 
+  const _id = generateId();
   let _title = validateTitle({ title });
   let _description = validateDescription({ description });
   let _dueDate = validateDueDate({ dueDate });
   let _priority = validatePriority({ priority });
 
   return {
+    get id() {
+      return _id;
+    },
     get title() {
       return _title;
     },
