@@ -85,6 +85,7 @@ export function router() {
 }
 
 export function navigate(url: string) {
-  history.pushState(null, null, url);
+  const urlText = /^\//.test(url) ? process.env.BASE_PATH + url : url;
+  history.pushState(null, null, urlText);
   router();
 }
