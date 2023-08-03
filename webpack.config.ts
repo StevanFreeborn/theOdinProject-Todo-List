@@ -22,7 +22,7 @@ const config = (env, argv): Configuration => {
       filename: 'index.js',
       path: path.resolve(__dirname, 'dist'),
       clean: true,
-      publicPath: publicPath,
+      publicPath: publicPath === '/' ? publicPath : publicPath + '/',
     },
     devtool: 'inline-source-map',
     module: {
