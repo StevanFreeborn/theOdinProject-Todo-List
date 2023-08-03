@@ -18,7 +18,7 @@ export default function AddList() {
     const { name } = Object.fromEntries(new FormData(event.target));
 
     if (name instanceof Object) {
-      throw Error('name is expected to be a string');
+      throw Error('Name is expected to be a string');
     }
 
     try {
@@ -38,6 +38,7 @@ export default function AddList() {
   document.addEventListener('submit', handleFormSubmit);
 
   return /*html*/ `
+    <h1>Add List</h1>
     <form id="${FORM_ID}">
       <div>
         <label for="name">Name</label>

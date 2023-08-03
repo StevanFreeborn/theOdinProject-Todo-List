@@ -43,7 +43,13 @@ export function context() {
     },
     get todos() {
       return {
-        add: () => null,
+        add: ({ todo }: { todo: Todo }) => {
+          _todos.push(todo);
+          setItem({ key: TODOS_KEY, item: _todos });
+        },
+        findMany: (predicate: (todo: Todo) => boolean) => {
+          return _todos.filter(predicate);
+        },
       };
     },
   };

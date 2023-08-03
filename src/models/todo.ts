@@ -1,7 +1,7 @@
 import { generateId } from '../utils/id';
 import { isNullOrWhiteSpace } from '../utils/strings';
 
-enum Priority {
+export enum Priority {
   High = 'High',
   Medium = 'Medium',
   Low = 'Low',
