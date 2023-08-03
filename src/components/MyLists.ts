@@ -27,16 +27,24 @@ export default function MyLists() {
     fontWeight: 'bold',
   });
 
-  const { getAllLists } = listService();
-  const allLists = getAllLists();
-  const myListItems = allLists.map(list => ({
-    linkText: list.name,
-    href: `/lists/${list.id}`,
-  }));
+  function renderNavLinkItems() {
+    const { getAllLists } = listService();
+    const allLists = getAllLists();
+    const myListItems = allLists.map(list => ({
+      linkText: list.name,
+      href: `/lists/${list.id}`,
+    }));
 
-  const myListNavLinkItems = [{ linkText: 'Inbox', href: '#' }].concat(
-    myListItems
-  );
+    return myListItems
+      .map(item => NavListItem({ linkText: item.linkText, href: item.href }))
+      .join('');
+  }
+
+  const MY_LISTS_ID = 'myLists';
+
+  document.addEventListener('listAdded', () => {
+    document.getElementById(MY_LISTS_ID).innerHTML = renderNavLinkItems();
+  });
 
   return /*html*/ `
     <div style="${myListTitleContainer}">
@@ -49,10 +57,8 @@ export default function MyLists() {
         onMouseOut: (e, t) => (t.style.color = ''),
       })}
     </div>
-    <ul style="${myListStyles}">
-      ${myListNavLinkItems
-        .map(item => NavListItem({ linkText: item.linkText, href: item.href }))
-        .join('')}
+    <ul id="${MY_LISTS_ID}" style="${myListStyles}">
+      ${renderNavLinkItems()}
     </ul>
   `;
 }

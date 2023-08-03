@@ -49,10 +49,18 @@ export default function SideBar() {
     flexDirection: 'column',
   });
 
+  const now = new Date();
+  const sevenDaysLater = new Date(now);
+  sevenDaysLater.setDate(now.getDate() + 7);
+
   const primaryNavLinkItems = [
-    { linkText: 'My Day', href: '#' },
-    { linkText: 'Next 7 Days', href: '#' },
-    { linkText: 'All my tasks', href: '#' },
+    { linkText: 'Inbox', href: '/' },
+    { linkText: 'My Day', href: '/my-day' },
+    {
+      linkText: 'Next 7 Days',
+      href: `/next-seven-days`,
+    },
+    { linkText: 'All my tasks', href: '/tasks' },
   ];
 
   return /*html*/ `

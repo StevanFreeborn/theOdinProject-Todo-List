@@ -1,4 +1,3 @@
-import MyLists from '../components/MyLists';
 import { createList } from '../models/list';
 import { navigate } from '../router';
 import { listService } from '../services/listService';
@@ -10,31 +9,33 @@ export default function AddList() {
     history.back();
   }
 
-  function handleFormSubmit(event: Event, target: HTMLFormElement) {
+  function handleFormSubmit(event: Event & { target: HTMLFormElement }) {
+    if (event.target.id !== FORM_ID) {
+      return;
+    }
+
     event.preventDefault();
-    const { name } = Object.fromEntries(new FormData(target));
+    const { name } = Object.fromEntries(new FormData(event.target));
 
     if (name instanceof Object) {
       throw Error('name is expected to be a string');
     }
 
-    const list = createList({ name });
-    const { addList } = listService();
-    addList({ list });
-    // TODO: Is there someway I can avoid doing this?
-    document.getElementById('myListsContainer').innerHTML = MyLists();
-    navigate(`/lists/${list.id}`);
+    try {
+      const list = createList({ name });
+      const { addList } = listService();
+      addList({ list });
+      document.dispatchEvent(new Event('listAdded'));
+      document.removeEventListener('submit', handleFormSubmit);
+      navigate(`/lists/${list.id}`);
+    } catch (error) {
+      if (error instanceof Error) {
+        alert(error.message);
+      }
+    }
   }
 
-  document.addEventListener(
-    'submit',
-    (e: Event & { target: HTMLFormElement }) => {
-      if (e.target.id !== FORM_ID) {
-        return;
-      }
-      handleFormSubmit(e, e.target);
-    }
-  );
+  document.addEventListener('submit', handleFormSubmit);
 
   return /*html*/ `
     <form id="${FORM_ID}">
