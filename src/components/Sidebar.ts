@@ -1,5 +1,6 @@
 import { inlineStyles } from '../utils/styles';
 import Link from './Link';
+import MyLists from './MyLists';
 
 function NavListItem({ linkText, href }: { linkText: string; href: string }) {
   const navListItemMouseOver = (e: HTMLElement) => {
@@ -31,7 +32,7 @@ function NavListItem({ linkText, href }: { linkText: string; href: string }) {
 
 export default function SideBar() {
   const asideStyles = inlineStyles({
-    flex: '15%',
+    width: '200px',
     backgroundColor: '#0093E9',
     backgroundImage: 'linear-gradient(160deg, #0093E9 0%, #80D0C7 100%)',
   });
@@ -41,24 +42,6 @@ export default function SideBar() {
     flexDirection: 'column',
     gap: '1rem',
     padding: '1rem 0rem',
-  });
-
-  const navListTitleContainer = inlineStyles({
-    display: 'flex',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-    padding: '0rem 1rem',
-    color: '#ffffff',
-  });
-
-  const navListTitleStyles = inlineStyles({
-    fontSize: '1.15rem',
-    fontWeight: 'bold',
-  });
-
-  const addListLinkStyles = inlineStyles({
-    fontSize: '1.25rem',
-    fontWeight: 'bold',
   });
 
   const navListStyles = inlineStyles({
@@ -72,8 +55,6 @@ export default function SideBar() {
     { linkText: 'All my tasks', href: '#' },
   ];
 
-  const secondaryNavLinkItems = [{ linkText: 'Inbox', href: '#' }];
-
   return /*html*/ `
     <aside style="${asideStyles}">
       <nav style="${navStyles}">
@@ -84,25 +65,9 @@ export default function SideBar() {
             )
             .join('')}
         </ul>
-        <div>
-          <div style="${navListTitleContainer}">
-            <div style="${navListTitleStyles}">My lists</div>
-            ${Link({
-              linkText: '+',
-              href: '/lists/add',
-              styles: addListLinkStyles,
-              onMouseOver: (e, t) => (t.style.color = '#424242'),
-              onMouseOut: (e, t) => (t.style.color = ''),
-            })}
-          </div>
-          <ul style="${navListStyles}">
-          ${secondaryNavLinkItems
-            .map(item =>
-              NavListItem({ linkText: item.linkText, href: item.href })
-            )
-            .join('')}
-          </ul>
-        </div
+        <div id="myListsContainer">
+          ${MyLists()}
+        </div>
       </nav>
     </aside>`;
 }

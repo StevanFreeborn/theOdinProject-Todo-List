@@ -8,7 +8,7 @@ export default function Layout() {
   });
 
   const mainStyles = inlineStyles({
-    flex: '85%',
+    flex: '1',
     padding: '1rem',
   });
 

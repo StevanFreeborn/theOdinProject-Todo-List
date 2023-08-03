@@ -22,7 +22,8 @@ export default function Link({
   const hrefText = /^\/$/.test(href) ? process.env.BASE_PATH + href : href;
 
   return /*html*/ `
-    <a 
+    <a
+      title="${linkText}"
       href="${hrefText}" 
       style="${styles}"
       onmouseover="(${onMouseOver})(event, this)"
