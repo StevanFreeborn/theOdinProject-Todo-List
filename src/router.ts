@@ -14,6 +14,7 @@ export type ViewProps = {
 
 type Route = {
   path: string;
+  query?: string;
   view: (props: ViewProps) => string;
 };
 
@@ -54,12 +55,15 @@ export function router() {
   if (match === null || match === undefined) {
     match = {
       route: {
+        query: location.search,
         path: location.pathname,
         view: NotFound,
       },
       result: [location.pathname],
     };
   }
+
+  match.route.query = location.search;
 
   const pathParams = [...match.route.path.matchAll(/:(\w+)/g)]
     .map(result => result[1])
@@ -68,7 +72,8 @@ export function router() {
       {}
     );
 
-  const queryString = match.route.path.split('?')[1];
+  const queryString = match.route.query?.split('?')[1];
+
   const queryParams =
     queryString === undefined
       ? {}
@@ -79,7 +84,10 @@ export function router() {
             return prev;
           }
 
-          return (prev[key] = decodeURIComponent(value.replace(/\+/g, ' ')));
+          return {
+            ...prev,
+            [key]: decodeURIComponent(value.replace(/\+/g, ' ')),
+          };
         }, {});
 
   const view = match.route.view({ pathParams, queryParams });
