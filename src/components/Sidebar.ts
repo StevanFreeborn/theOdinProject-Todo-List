@@ -3,7 +3,7 @@ import { inlineStyles } from '../utils/styles';
 import MyLists from './MyLists';
 import NavListItem from './NavListItem';
 
-export default function SideBar({ parent }: { parent: HTMLElement }) {
+export default function SideBar() {
   const primaryNavLinkItems = [
     { linkText: 'Inbox', href: '/' },
     { linkText: 'My Day', href: '/my-day' },
@@ -16,8 +16,8 @@ export default function SideBar({ parent }: { parent: HTMLElement }) {
 
   const aside = Aside();
   aside.appendChild(Nav());
-  MyLists({ parent: aside });
-  parent.appendChild(aside);
+  aside.appendChild(MyLists());
+  return aside;
 
   function Aside() {
     const aside = document.createElement('aside');
@@ -55,11 +55,12 @@ export default function SideBar({ parent }: { parent: HTMLElement }) {
     });
 
     primaryNavLinkItems.forEach(item => {
-      NavListItem({
-        parent: navList,
-        linkText: item.linkText,
-        href: item.href,
-      });
+      navList.appendChild(
+        NavListItem({
+          linkText: item.linkText,
+          href: item.href,
+        })
+      );
     });
 
     function handleNavListMouseOver(e: Event & { target: HTMLElement }) {

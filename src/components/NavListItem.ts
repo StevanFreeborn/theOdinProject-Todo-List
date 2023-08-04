@@ -2,11 +2,9 @@ import { inlineStyles } from '../utils/styles';
 import Link from './Link';
 
 export default function NavListItem({
-  parent,
   linkText,
   href,
 }: {
-  parent: HTMLElement;
   linkText: string;
   href: string;
 }) {
@@ -21,7 +19,7 @@ export default function NavListItem({
   });
 
   const navItem = document.createElement('li');
-  Link({ parent: navItem, linkText, href, styles: navLinkStyles });
+  navItem.appendChild(Link({ linkText, href, styles: navLinkStyles }));
 
-  parent.appendChild(navItem);
+  return navItem;
 }

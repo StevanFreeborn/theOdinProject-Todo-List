@@ -10,7 +10,7 @@ export default function ListDetail(props: ViewProps) {
 
   function renderTodos() {
     const { getTodosByListId } = todoService();
-    const todos = getTodosByListId({ listId: list.id });
+    const todos = getTodosByListId({ listId: list?.id });
     return /*html*/ `
       <ul>
         ${todos
@@ -24,13 +24,9 @@ export default function ListDetail(props: ViewProps) {
     `;
   }
 
-  return /*html*/ `
-    ${ListHeading({
-      heading: list.name,
-      listId: list.id,
-    })}
-    <div>
-      ${renderTodos()}
-    </div>
-  `;
+  ListHeading({
+    parent: props.parent,
+    headingText: list ? list.name : 'Inbox',
+    listId: list?.id,
+  });
 }

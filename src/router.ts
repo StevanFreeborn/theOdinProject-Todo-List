@@ -1,7 +1,6 @@
 import AddList from './views/AddList';
 import AddTask from './views/AddTask';
 import AllMyTasks from './views/AllMyTasks';
-import Inbox from './views/Inbox';
 import ListDetail from './views/ListDetail';
 import MyDay from './views/MyDay';
 import NextWeek from './views/NextWeek';
@@ -26,7 +25,7 @@ type Match = {
 
 export function router() {
   const routes: Route[] = [
-    { path: '/', view: Inbox },
+    { path: '/', view: ListDetail },
     { path: '/my-day', view: MyDay },
     { path: '/next-seven-days', view: NextWeek },
     { path: '/tasks', view: AllMyTasks },
@@ -91,6 +90,7 @@ export function router() {
         }, {});
 
   const parent = document.getElementById('app');
+  parent.innerHTML = '';
   match.route.view({ parent, pathParams, queryParams });
 }
 

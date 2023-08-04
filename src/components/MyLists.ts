@@ -4,11 +4,11 @@ import { inlineStyles } from '../utils/styles';
 import Link from './Link';
 import NavListItem from './NavListItem';
 
-export default function MyLists({ parent }: { parent: HTMLElement }) {
+export default function MyLists() {
   const container = MyListContainer();
   container.append(MyListTitle());
   container.append(List());
-  parent.appendChild(container);
+  return container;
 
   function MyListContainer() {
     const myListContainer = document.createElement('div');
@@ -41,12 +41,13 @@ export default function MyLists({ parent }: { parent: HTMLElement }) {
 
     container.appendChild(title);
 
-    Link({
-      parent: container,
-      linkText: '+',
-      href: '/lists/add',
-      styles: addListLinkStyles,
-    });
+    container.appendChild(
+      Link({
+        linkText: '+',
+        href: '/lists/add',
+        styles: addListLinkStyles,
+      })
+    );
 
     function handleContainerMouseOver(e: Event & { target: HTMLElement }) {
       if (e.target.matches('a')) {
@@ -78,7 +79,9 @@ export default function MyLists({ parent }: { parent: HTMLElement }) {
       list.innerHTML = '';
 
       myListItems.forEach(item =>
-        NavListItem({ parent: list, linkText: item.linkText, href: item.href })
+        list.appendChild(
+          NavListItem({ linkText: item.linkText, href: item.href })
+        )
       );
     }
 

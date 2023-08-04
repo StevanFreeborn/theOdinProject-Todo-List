@@ -1,7 +1,7 @@
 import SideBar from './components/Sidebar';
 import { inlineStyles } from './utils/styles';
 
-export default function Layout({ parent }: { parent: HTMLElement }) {
+export default function Layout() {
   const main = document.createElement('main');
   main.id = 'app';
   main.style.cssText = inlineStyles({
@@ -9,14 +9,14 @@ export default function Layout({ parent }: { parent: HTMLElement }) {
     padding: '1rem',
   });
 
-  const divContainer = document.createElement('div');
-  divContainer.style.cssText = inlineStyles({
+  const container = document.createElement('div');
+  container.style.cssText = inlineStyles({
     height: '100%',
     display: 'flex',
   });
 
-  SideBar({ parent: divContainer });
-  divContainer.appendChild(main);
+  container.appendChild(SideBar());
+  container.appendChild(main);
 
-  parent.appendChild(divContainer);
+  return container;
 }

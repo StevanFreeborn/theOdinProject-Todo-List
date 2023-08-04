@@ -4,7 +4,7 @@ import Layout from './layout';
 import { navigate, router } from './router';
 
 const root = document.getElementById(ids.ROOT);
-Layout({ parent: root });
+root.appendChild(Layout());
 
 window.addEventListener('popstate', router);
 

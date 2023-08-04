@@ -1,7 +1,8 @@
 import { ViewProps } from '../router';
 
 export default function MyDay(props: ViewProps) {
-  props.parent.innerHTML = /*html*/ `
-    <h1>My Day</h1>
-  `;
+  const heading = document.createElement('h1');
+  heading.innerText = 'My Day';
+
+  props.parent.appendChild(heading);
 }
