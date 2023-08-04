@@ -1,8 +1,9 @@
 import './assets/index.css';
+import { ids } from './constants/elements';
 import Layout from './layout';
 import { navigate, router } from './router';
 
-const root = document.getElementById('root');
+const root = document.getElementById(ids.ROOT);
 Layout({ parent: root });
 
 window.addEventListener('popstate', router);

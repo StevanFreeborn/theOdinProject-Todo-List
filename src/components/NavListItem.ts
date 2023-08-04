@@ -2,20 +2,14 @@ import { inlineStyles } from '../utils/styles';
 import Link from './Link';
 
 export default function NavListItem({
+  parent,
   linkText,
   href,
 }: {
+  parent: HTMLElement;
   linkText: string;
   href: string;
 }) {
-  const navListItemMouseOver = (e: HTMLElement) => {
-    e.style.backgroundColor = '#424242';
-  };
-
-  const navListItemMouseOut = (e: HTMLElement) => {
-    e.style.backgroundColor = '';
-  };
-
   const navLinkStyles = inlineStyles({
     color: '#ffffff',
     whiteSpace: 'nowrap',
@@ -26,13 +20,8 @@ export default function NavListItem({
     overflow: 'hidden',
   });
 
-  return /*html*/ `
-    <li 
-      onmouseover="(${navListItemMouseOver})(this)" 
-      onmouseout="(${navListItemMouseOut})(this)" 
-      
-    >
-      ${Link({ linkText, href, styles: navLinkStyles })}
-    </li>
-  `;
+  const navItem = document.createElement('li');
+  Link({ parent: navItem, linkText, href, styles: navLinkStyles });
+
+  parent.appendChild(navItem);
 }

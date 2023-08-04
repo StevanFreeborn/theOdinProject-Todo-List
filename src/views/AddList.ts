@@ -25,7 +25,7 @@ export default function AddList(props: ViewProps) {
       const list = createList({ name });
       const { addList } = listService();
       addList({ list });
-      document.dispatchEvent(new Event('listAdded'));
+      document.dispatchEvent(new Event('listsUpdated'));
       document.removeEventListener('submit', handleFormSubmit);
       navigate(`/lists/${list.id}`);
     } catch (error) {
