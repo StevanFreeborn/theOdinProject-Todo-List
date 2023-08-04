@@ -8,13 +8,15 @@ import NextWeek from './views/NextWeek';
 import NotFound from './views/NotFound';
 
 export type ViewProps = {
+  parent: HTMLElement;
   pathParams: { [key: string]: string };
   queryParams: { [key: string]: string };
 };
 
 type Route = {
+  query?: string;
   path: string;
-  view: (props: ViewProps) => string;
+  view: (props: ViewProps) => void;
 };
 
 type Match = {
@@ -61,6 +63,8 @@ export function router() {
     };
   }
 
+  match.route.query = location.search;
+
   const pathParams = [...match.route.path.matchAll(/:(\w+)/g)]
     .map(result => result[1])
     .reduce(
@@ -68,7 +72,7 @@ export function router() {
       {}
     );
 
-  const queryString = match.route.path.split('?')[1];
+  const queryString = match.route.query?.split('?')[1];
   const queryParams =
     queryString === undefined
       ? {}
@@ -79,11 +83,14 @@ export function router() {
             return prev;
           }
 
-          return (prev[key] = decodeURIComponent(value.replace(/\+/g, ' ')));
+          return {
+            ...prev,
+            [key]: decodeURIComponent(value.replace(/\+/g, ' ')),
+          };
         }, {});
 
-  const view = match.route.view({ pathParams, queryParams });
-  document.getElementById('app').innerHTML = view;
+  const parent = document.getElementById('app');
+  match.route.view({ parent, pathParams, queryParams });
 }
 
 export function navigate(url: string) {

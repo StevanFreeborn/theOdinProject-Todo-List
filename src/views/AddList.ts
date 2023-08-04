@@ -1,8 +1,8 @@
 import { createList } from '../models/list';
-import { navigate } from '../router';
+import { ViewProps, navigate } from '../router';
 import { listService } from '../services/listService';
 
-export default function AddList() {
+export default function AddList(props: ViewProps) {
   const FORM_ID = 'addListForm';
 
   function handleCancelClick() {
@@ -25,7 +25,7 @@ export default function AddList() {
       const list = createList({ name });
       const { addList } = listService();
       addList({ list });
-      document.dispatchEvent(new Event('listAdded'));
+      document.dispatchEvent(new Event('listsUpdated'));
       document.removeEventListener('submit', handleFormSubmit);
       navigate(`/lists/${list.id}`);
     } catch (error) {
@@ -35,10 +35,7 @@ export default function AddList() {
     }
   }
 
-  document.addEventListener('submit', handleFormSubmit);
-
-  return /*html*/ `
-    <h1>Add List</h1>
+  props.parent.innerHTML = /*html*/ `
     <form id="${FORM_ID}">
       <div>
         <label for="name">Name</label>
@@ -50,4 +47,6 @@ export default function AddList() {
       </div>     
     </form>
   `;
+
+  document.getElementById(FORM_ID).addEventListener('submit', handleFormSubmit);
 }
