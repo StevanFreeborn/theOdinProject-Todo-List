@@ -56,6 +56,7 @@ export function router() {
   if (match === null || match === undefined) {
     match = {
       route: {
+        query: location.search,
         path: location.pathname,
         view: NotFound,
       },

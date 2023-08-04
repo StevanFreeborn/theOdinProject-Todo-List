@@ -8,7 +8,17 @@ export function todoService() {
     _context.todos.add({ todo });
   }
 
+  function getInboxTodos() {
+    return _context.todos.findMany(t => t.listId === undefined);
+  }
+
+  function getTodosByListId({ listId }: { listId: string }) {
+    return _context.todos.findMany(t => t.listId === listId);
+  }
+
   return {
     addTodo,
+    getInboxTodos,
+    getTodosByListId,
   };
 }

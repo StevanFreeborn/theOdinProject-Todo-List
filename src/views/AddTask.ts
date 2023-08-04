@@ -1,9 +1,11 @@
 import { Priority, createTodo } from '../models/todo';
-import { navigate } from '../router';
+import { ViewProps, navigate } from '../router';
 import { todoService } from '../services/todoService';
 import { camelCaseToTitleCase } from '../utils/strings';
 
-export default function AddTask() {
+export default function AddTask(props: ViewProps) {
+  const { listId } = props.queryParams;
+
   const FORM_ID = 'addTaskForm';
 
   function handleCancelClick() {
@@ -30,6 +32,7 @@ export default function AddTask() {
     try {
       const { title, description, dueDate, priority } = todoData;
       const todo = createTodo({
+        listId,
         title,
         description,
         dueDate: new Date(dueDate),
@@ -38,7 +41,8 @@ export default function AddTask() {
       const { addTodo } = todoService();
       addTodo({ todo });
       document.removeEventListener('submit', handleFormSubmit);
-      navigate(`/tasks/${todo.id}`);
+      const returnUrl = listId ? `/lists/${listId}` : '/';
+      navigate(returnUrl);
     } catch (error) {
       if (error instanceof Error) {
         alert(error.message);

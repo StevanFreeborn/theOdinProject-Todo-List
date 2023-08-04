@@ -8,6 +8,7 @@ export enum Priority {
 }
 
 type TodoParams = {
+  listId?: string;
   title: string;
   description: string;
   dueDate: Date;
@@ -17,6 +18,7 @@ type TodoParams = {
 export type Todo = { id: string } & TodoParams;
 
 export function createTodo({
+  listId,
   title,
   description,
   dueDate,
@@ -56,6 +58,7 @@ export function createTodo({
     return priorityEnum;
   }
 
+  let _listId = listId;
   const _id = generateId();
   let _title = validateTitle({ title });
   let _description = validateDescription({ description });
@@ -63,6 +66,12 @@ export function createTodo({
   let _priority = validatePriority({ priority });
 
   return {
+    get listId() {
+      return _listId;
+    },
+    set listId(listId) {
+      _listId = listId;
+    },
     get id() {
       return _id;
     },
