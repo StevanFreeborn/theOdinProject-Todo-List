@@ -86,7 +86,7 @@ export default function MyLists() {
     }
 
     const list = document.createElement('ul');
-    list.id = ids.MY_LISTS_ID;
+    list.id = ids.MY_LISTS;
     list.style.cssText = inlineStyles({
       display: 'flex',
       flexDirection: 'column',

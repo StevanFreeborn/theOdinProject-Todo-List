@@ -24,9 +24,10 @@ export default function ListDetail(props: ViewProps) {
     `;
   }
 
-  ListHeading({
-    parent: props.parent,
-    headingText: list ? list.name : 'Inbox',
-    listId: list?.id,
-  });
+  props.parent.appendChild(
+    ListHeading({
+      headingText: list ? list.name : 'Inbox',
+      listId: list?.id,
+    })
+  );
 }

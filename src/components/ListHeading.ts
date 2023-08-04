@@ -2,11 +2,9 @@ import { inlineStyles } from '../utils/styles';
 import Link from './Link';
 
 export default function ListHeading({
-  parent,
   headingText,
   listId,
 }: {
-  parent: HTMLElement;
   headingText: string;
   listId?: string;
 }) {
@@ -55,5 +53,5 @@ export default function ListHeading({
   container.addEventListener('mouseover', handleContainerMouseOver);
   container.addEventListener('mouseout', handleContainerMouseOut);
 
-  parent.appendChild(container);
+  return container;
 }
