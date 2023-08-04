@@ -3,7 +3,7 @@ import Layout from './layout';
 import { navigate, router } from './router';
 
 const root = document.getElementById('root');
-root.innerHTML = Layout();
+Layout({ parent: root });
 
 window.addEventListener('popstate', router);
 

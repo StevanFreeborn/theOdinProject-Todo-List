@@ -6,7 +6,7 @@ export default function ListDetail(props: ViewProps) {
   const { getById } = listService();
   const list = getById({ id });
 
-  return /*html*/ `
+  props.parent.innerHTML = /*html*/ `
     <h1>${list.name}</h1>
   `;
 }

@@ -30,13 +30,7 @@ function NavListItem({ linkText, href }: { linkText: string; href: string }) {
   `;
 }
 
-export default function SideBar() {
-  const asideStyles = inlineStyles({
-    width: '200px',
-    backgroundColor: '#0093E9',
-    backgroundImage: 'linear-gradient(160deg, #0093E9 0%, #80D0C7 100%)',
-  });
-
+export default function SideBar({ parent }: { parent: HTMLElement }) {
   const navStyles = inlineStyles({
     display: 'flex',
     flexDirection: 'column',
@@ -63,19 +57,26 @@ export default function SideBar() {
     { linkText: 'All my tasks', href: '/tasks' },
   ];
 
-  return /*html*/ `
-    <aside style="${asideStyles}">
-      <nav style="${navStyles}">
-        <ul style="${navListStyles}">
-          ${primaryNavLinkItems
-            .map(item =>
-              NavListItem({ linkText: item.linkText, href: item.href })
-            )
-            .join('')}
-        </ul>
-        <div id="myListsContainer">
-          ${MyLists()}
-        </div>
-      </nav>
-    </aside>`;
+  const aside = document.createElement('aside');
+  aside.style.cssText = inlineStyles({
+    width: '200px',
+    backgroundColor: '#0093E9',
+    backgroundImage: 'linear-gradient(160deg, #0093E9 0%, #80D0C7 100%)',
+  });
+  aside.innerHTML = /*html*/ `
+    <nav style="${navStyles}">
+      <ul style="${navListStyles}">
+        ${primaryNavLinkItems
+          .map(item =>
+            NavListItem({ linkText: item.linkText, href: item.href })
+          )
+          .join('')}
+      </ul>
+      <div id="myListsContainer">
+        ${MyLists()}
+      </div>
+    </nav>
+  `;
+
+  parent.appendChild(aside);
 }
