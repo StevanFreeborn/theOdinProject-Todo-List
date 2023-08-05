@@ -1,6 +1,6 @@
 import { Todo } from '../models/todo';
 import { inlineStyles } from '../utils/styles';
-import CheckMarkIcon from './CheckmarkIcon';
+import CheckmarkCircleIcon from './CheckmarkCircleIcon';
 
 export default function TodoCard({ todo }: { todo?: Todo }) {
   const card = document.createElement('div');
@@ -30,7 +30,7 @@ export default function TodoCard({ todo }: { todo?: Todo }) {
     placeHolder.innerText = 'What do you want to get done?';
 
     placeholderContainer.appendChild(
-      CheckMarkIcon({ height: 40, width: 40, fill: 'currentColor' })
+      CheckmarkCircleIcon({ height: 40, width: 40, fill: 'currentColor' })
     );
     placeholderContainer.appendChild(placeHolder);
 

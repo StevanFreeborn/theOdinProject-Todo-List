@@ -1,5 +1,5 @@
 {
-  "cSpell.words": ["theodinproject", "todos"],
+  "cSpell.words": ["Checkmark", "theodinproject", "todos"],
   "typescript.tsdk": "node_modules\\typescript\\lib",
   "liveServer.settings.root": "/dist",
   "typescript.preferences.importModuleSpecifierEnding": "minimal"

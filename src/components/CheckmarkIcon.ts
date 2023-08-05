@@ -1,4 +1,4 @@
-export default function CheckMarkIcon({
+export default function CheckmarkIcon({
   width,
   height,
   fill,
@@ -13,26 +13,13 @@ export default function CheckMarkIcon({
   svg.setAttribute('fill', fill);
   svg.setAttribute('viewBox', `0 0 16 16`);
 
-  const firstPath = document.createElementNS(
-    'http://www.w3.org/2000/svg',
-    'path'
-  );
-  firstPath.setAttribute(
+  const path = document.createElementNS('http://www.w3.org/2000/svg', 'path');
+  path.setAttribute(
     'd',
-    'M2.5 8a5.5 5.5 0 0 1 8.25-4.764.5.5 0 0 0 .5-.866A6.5 6.5 0 1 0 14.5 8a.5.5 0 0 0-1 0 5.5 5.5 0 1 1-11 0z'
+    'M10.97 4.97a.75.75 0 0 1 1.07 1.05l-3.99 4.99a.75.75 0 0 1-1.08.02L4.324 8.384a.75.75 0 1 1 1.06-1.06l2.094 2.093 3.473-4.425a.267.267 0 0 1 .02-.022z'
   );
 
-  const secondPath = document.createElementNS(
-    'http://www.w3.org/2000/svg',
-    'path'
-  );
-  secondPath.setAttribute(
-    'd',
-    'M15.354 3.354a.5.5 0 0 0-.708-.708L8 9.293 5.354 6.646a.5.5 0 1 0-.708.708l3 3a.5.5 0 0 0 .708 0l7-7z'
-  );
-
-  svg.appendChild(firstPath);
-  svg.appendChild(secondPath);
+  svg.appendChild(path);
 
   return svg;
 }

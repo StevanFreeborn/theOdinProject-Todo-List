@@ -1,5 +1,6 @@
 import { Todo } from '../models/todo';
 import { inlineStyles } from '../utils/styles';
+import CheckmarkIcon from './CheckmarkIcon';
 
 function ListCardTodo({ todo }: { todo: Todo }) {
   const container = document.createElement('div');
@@ -12,13 +13,24 @@ function ListCardTodo({ todo }: { todo: Todo }) {
     cursor: 'pointer',
   });
 
+  function ButtonText() {
+    return todo.complete
+      ? CheckmarkIcon({ width: 40, height: 40, fill: 'currentColor' })
+      : document.createElement('span');
+  }
+
   const button = document.createElement('button');
+  button.appendChild(ButtonText());
   button.type = 'button';
   button.style.cssText = inlineStyles({
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
     height: '1rem',
     aspectRatio: '1',
     borderRadius: '50%',
     border: '1px solid #ffffff',
+    color: '#ffffff',
   });
 
   const span = document.createElement('span');
@@ -26,6 +38,32 @@ function ListCardTodo({ todo }: { todo: Todo }) {
 
   container.appendChild(button);
   container.appendChild(span);
+
+  function handleButtonClick() {
+    // TODO: update todo in local storage
+    if (todo.complete == false) {
+      todo.complete = true;
+      button.innerHTML = '';
+      button.appendChild(ButtonText());
+
+      span.style.cssText = inlineStyles({
+        textDecoration: 'line-through',
+      });
+      return;
+    }
+
+    todo.complete = false;
+    button.innerHTML = '';
+    button.appendChild(ButtonText());
+
+    span.style.cssText = inlineStyles({
+      textDecoration: '',
+    });
+
+    return;
+  }
+
+  button.addEventListener('click', handleButtonClick);
 
   function handleContainerMouseOver() {
     container.style.backgroundColor = '#0093e970';
@@ -56,6 +94,13 @@ export default function ListCard({ todos }: { todos: Todo[] }) {
   if (todos.length == 0) {
     const placeHolder = document.createElement('div');
     placeHolder.innerText = 'Looks like you got it all done! 🎉';
+    placeHolder.style.cssText = inlineStyles({
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'center',
+      height: '100%',
+      width: '100%',
+    });
     card.appendChild(placeHolder);
     return card;
   }
@@ -75,6 +120,7 @@ export default function ListCard({ todos }: { todos: Todo[] }) {
   });
 
   function handleListClick(e: Event & { target: HTMLElement }) {
+    // TODO: display todo in todo detail card
     const targetTodo = e.target.closest('li');
 
     if (targetTodo === null) {

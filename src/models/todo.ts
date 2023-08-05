@@ -15,7 +15,7 @@ type TodoParams = {
   priority: Priority;
 };
 
-export type Todo = { id: string } & TodoParams;
+export type Todo = { id: string; complete: boolean } & TodoParams;
 
 export function createTodo({
   listId,
@@ -64,6 +64,7 @@ export function createTodo({
   let _description = validateDescription({ description });
   let _dueDate = validateDueDate({ dueDate });
   let _priority = validatePriority({ priority });
+  let _complete = false;
 
   return {
     get listId() {
@@ -98,6 +99,12 @@ export function createTodo({
     },
     set priority(priority) {
       _priority = validatePriority({ priority });
+    },
+    get complete() {
+      return _complete;
+    },
+    set complete(complete) {
+      _complete = complete;
     },
   };
 }
