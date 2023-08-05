@@ -53,14 +53,14 @@ export default function SideBar() {
       flexDirection: 'column',
     });
 
-    primaryNavLinkItems.forEach(item => {
-      navList.appendChild(
-        NavListItem({
-          linkText: item.linkText,
-          href: item.href,
-        })
-      );
-    });
+    const items = primaryNavLinkItems.map(item =>
+      NavListItem({
+        linkText: item.linkText,
+        href: item.href,
+      })
+    );
+
+    navList.append(...items);
 
     function handleNavListMouseOver(e: Event & { target: HTMLElement }) {
       if (e.target.matches('a')) {

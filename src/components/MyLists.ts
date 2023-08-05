@@ -78,11 +78,11 @@ export default function MyLists() {
 
       list.innerHTML = '';
 
-      myListItems.forEach(item =>
-        list.appendChild(
-          NavListItem({ linkText: item.linkText, href: item.href })
-        )
+      const items = myListItems.map(item =>
+        NavListItem({ linkText: item.linkText, href: item.href })
       );
+
+      list.append(...items);
     }
 
     const list = document.createElement('ul');

@@ -35,12 +35,14 @@ export default function ListCard({ todos }: { todos: Todo[] }) {
     gap: '0.25rem',
   });
 
-  todos.forEach(todo => {
+  const items = todos.map(todo => {
     const item = document.createElement('li');
     item.appendChild(ListCardTodo({ todo }));
     item.id = todo.id;
-    list.appendChild(item);
+    return item;
   });
+
+  list.append(...items);
 
   function handleListClick(e: Event & { target: HTMLElement }) {
     const targetTodo = e.target.closest('li');
