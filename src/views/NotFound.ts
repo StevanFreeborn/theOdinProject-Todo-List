@@ -1,5 +1,8 @@
-export default function NotFound() {
-  return /*html*/ `
-    <h1>Not Found</h1>
-  `;
+import { ViewProps } from '../router';
+
+export default function NotFound(props: ViewProps) {
+  const heading = document.createElement('h1');
+  heading.innerText = 'Not Found';
+
+  props.parent.appendChild(heading);
 }

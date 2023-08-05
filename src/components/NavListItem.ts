@@ -8,14 +8,6 @@ export default function NavListItem({
   linkText: string;
   href: string;
 }) {
-  const navListItemMouseOver = (e: HTMLElement) => {
-    e.style.backgroundColor = '#424242';
-  };
-
-  const navListItemMouseOut = (e: HTMLElement) => {
-    e.style.backgroundColor = '';
-  };
-
   const navLinkStyles = inlineStyles({
     color: '#ffffff',
     whiteSpace: 'nowrap',
@@ -26,13 +18,8 @@ export default function NavListItem({
     overflow: 'hidden',
   });
 
-  return /*html*/ `
-    <li 
-      onmouseover="(${navListItemMouseOver})(this)" 
-      onmouseout="(${navListItemMouseOut})(this)" 
-      
-    >
-      ${Link({ linkText, href, styles: navLinkStyles })}
-    </li>
-  `;
+  const navItem = document.createElement('li');
+  navItem.appendChild(Link({ linkText, href, styles: navLinkStyles }));
+
+  return navItem;
 }

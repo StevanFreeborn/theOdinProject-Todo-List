@@ -1,5 +1,7 @@
-export default function AllMyTasks() {
-  return /*html*/ `
-    <h1>All My Tasks</h1>
-  `;
+import { ViewProps } from './../router';
+export default function AllMyTasks(props: ViewProps) {
+  const heading = document.createElement('h1');
+  heading.innerText = 'All My Tasks';
+
+  props.parent.appendChild(heading);
 }

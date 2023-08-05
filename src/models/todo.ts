@@ -1,22 +1,24 @@
 import { generateId } from '../utils/id';
 import { isNullOrWhiteSpace } from '../utils/strings';
 
-enum Priority {
+export enum Priority {
   High = 'High',
   Medium = 'Medium',
   Low = 'Low',
 }
 
 type TodoParams = {
+  listId?: string;
   title: string;
   description: string;
   dueDate: Date;
   priority: Priority;
 };
 
-export type Todo = { id: string } & TodoParams;
+export type Todo = { id: string; complete: boolean } & TodoParams;
 
 export function createTodo({
+  listId,
   title,
   description,
   dueDate,
@@ -56,13 +58,21 @@ export function createTodo({
     return priorityEnum;
   }
 
+  let _listId = listId;
   const _id = generateId();
   let _title = validateTitle({ title });
   let _description = validateDescription({ description });
   let _dueDate = validateDueDate({ dueDate });
   let _priority = validatePriority({ priority });
+  let _complete = false;
 
   return {
+    get listId() {
+      return _listId;
+    },
+    set listId(listId) {
+      _listId = listId;
+    },
     get id() {
       return _id;
     },
@@ -89,6 +99,12 @@ export function createTodo({
     },
     set priority(priority) {
       _priority = validatePriority({ priority });
+    },
+    get complete() {
+      return _complete;
+    },
+    set complete(complete) {
+      _complete = complete;
     },
   };
 }

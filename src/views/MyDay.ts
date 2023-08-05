@@ -1,5 +1,8 @@
-export default function MyDay() {
-  return /*html*/ `
-    <h1>My Day</h1>
-  `;
+import { ViewProps } from '../router';
+
+export default function MyDay(props: ViewProps) {
+  const heading = document.createElement('h1');
+  heading.innerText = 'My Day';
+
+  props.parent.appendChild(heading);
 }

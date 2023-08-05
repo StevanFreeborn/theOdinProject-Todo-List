@@ -43,7 +43,26 @@ export function context() {
     },
     get todos() {
       return {
-        add: () => null,
+        add: ({ todo }: { todo: Todo }) => {
+          _todos.push(todo);
+          setItem({ key: TODOS_KEY, item: _todos });
+        },
+        find: (predicate: (todo: Todo) => boolean) => {
+          return _todos.find(predicate);
+        },
+        findMany: (predicate: (todo: Todo) => boolean) => {
+          return _todos.filter(predicate);
+        },
+        findAndReplace: (predicate: (todo: Todo) => boolean, todo: Todo) => {
+          const index = _todos.findIndex(predicate);
+
+          if (index === -1) {
+            return;
+          }
+
+          _todos[index] = todo;
+          setItem({ key: TODOS_KEY, item: _todos });
+        },
       };
     },
   };

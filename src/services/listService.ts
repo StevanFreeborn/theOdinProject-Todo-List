@@ -14,7 +14,7 @@ export function listService() {
     _context.lists.add({ list });
   }
 
-  function getById({ id }: { id: string }) {
+  function getListById({ id }: { id: string }) {
     return _context.lists.findOne(l => l.id === id);
   }
 
@@ -24,7 +24,7 @@ export function listService() {
 
   return {
     addList,
-    getById,
+    getListById,
     getAllLists,
   };
 }

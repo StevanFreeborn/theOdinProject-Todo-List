@@ -1,5 +1,8 @@
-export default function NextWeek() {
-  return /*html*/ `
-    <h1>Next 7 Days</h1>
-  `;
+import { ViewProps } from '../router';
+
+export default function NextWeek(props: ViewProps) {
+  const heading = document.createElement('h1');
+  heading.innerText = 'Next 7 Days';
+
+  props.parent.appendChild(heading);
 }
