@@ -1,8 +1,6 @@
-import { Todo } from '../models/todo';
 import { inlineStyles } from '../utils/styles';
-import CheckmarkCircleIcon from './CheckmarkCircleIcon';
 
-export default function TodoCard({ todo }: { todo?: Todo }) {
+export default function TodoCard() {
   const card = document.createElement('div');
   card.style.cssText = inlineStyles({
     display: 'flex',
@@ -13,29 +11,6 @@ export default function TodoCard({ todo }: { todo?: Todo }) {
     backgroundColor: '#424242',
     flex: '1',
   });
-
-  if (todo === undefined) {
-    const placeholderContainer = document.createElement('div');
-    placeholderContainer.style.cssText = inlineStyles({
-      display: 'flex',
-      flexDirection: 'column',
-      height: '100%',
-      width: '100%',
-      alignItems: 'center',
-      justifyContent: 'center',
-      gap: '0.5rem',
-    });
-
-    const placeHolder = document.createElement('div');
-    placeHolder.innerText = 'What do you want to get done?';
-
-    placeholderContainer.appendChild(
-      CheckmarkCircleIcon({ height: 40, width: 40, fill: 'currentColor' })
-    );
-    placeholderContainer.appendChild(placeHolder);
-
-    card.appendChild(placeholderContainer);
-  }
 
   return card;
 }

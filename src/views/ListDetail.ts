@@ -1,6 +1,7 @@
 import ListCard from '../components/ListCard';
 import ListHeading from '../components/ListHeading';
 import TodoCard from '../components/TodoCard';
+import TodoDetails from '../components/TodoDetails';
 import { ViewProps } from '../router';
 import { listService } from '../services/listService';
 import { todoService } from '../services/todoService';
@@ -8,9 +9,9 @@ import { inlineStyles } from '../utils/styles';
 
 export default function ListDetail(props: ViewProps) {
   const { id } = props.pathParams;
-  const { getById } = listService();
-  const list = getById({ id });
-  const { getTodosByListId } = todoService();
+  const { getListById } = listService();
+  const list = getListById({ id });
+  const { getTodosByListId, getTodoById } = todoService();
   const todos = getTodosByListId({ listId: list?.id });
 
   const container = document.createElement('div');
@@ -33,7 +34,20 @@ export default function ListDetail(props: ViewProps) {
   });
 
   cardContainer.appendChild(ListCard({ todos }));
-  cardContainer.appendChild(TodoCard({}));
+
+  const todoCard = TodoCard();
+  const todoDetails = TodoDetails({});
+  todoCard.appendChild(todoDetails);
+  cardContainer.appendChild(todoCard);
+
+  function handleTodoClick(e: CustomEvent) {
+    const { todoId } = e.detail;
+    const todo = getTodoById({ todoId });
+    todoCard.innerHTML = '';
+    todoCard.appendChild(TodoDetails({ todo }));
+  }
+
+  document.addEventListener('todoClick', handleTodoClick);
 
   container.appendChild(
     ListHeading({

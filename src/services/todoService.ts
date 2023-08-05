@@ -4,6 +4,10 @@ import { Todo } from '../models/todo';
 export function todoService() {
   const _context = context();
 
+  function updateTodo({ todo }: { todo: Todo }) {
+    _context.todos.findAndReplace(t => t.id === todo.id, todo);
+  }
+
   function addTodo({ todo }: { todo: Todo }) {
     _context.todos.add({ todo });
   }
@@ -16,9 +20,15 @@ export function todoService() {
     return _context.todos.findMany(t => t.listId === listId);
   }
 
+  function getTodoById({ todoId }: { todoId: string }) {
+    return _context.todos.find(t => t.id === todoId);
+  }
+
   return {
     addTodo,
     getInboxTodos,
     getTodosByListId,
+    updateTodo,
+    getTodoById,
   };
 }
