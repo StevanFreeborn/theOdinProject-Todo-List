@@ -75,10 +75,13 @@ export default function ListCard({ todos }: { todos: Todo[] }) {
   });
 
   function handleListClick(e: Event & { target: HTMLElement }) {
-    const allTodos = [...list.querySelectorAll('li')];
     const targetTodo = e.target.closest('li');
 
-    allTodos.forEach(todo => {
+    if (targetTodo === null) {
+      return;
+    }
+
+    [...list.querySelectorAll('li')].forEach(todo => {
       if (todo.id === targetTodo.id) {
         todo.style.cssText = inlineStyles({
           outline: 'none',
