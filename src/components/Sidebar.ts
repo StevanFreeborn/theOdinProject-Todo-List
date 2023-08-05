@@ -23,8 +23,7 @@ export default function SideBar() {
     const aside = document.createElement('aside');
     aside.style.cssText = inlineStyles({
       width: '200px',
-      backgroundColor: '#0093E9',
-      backgroundImage: 'linear-gradient(160deg, #0093E9 0%, #80D0C7 100%)',
+      backgroundColor: '#424242',
       overflow: 'auto',
     });
 
@@ -65,7 +64,7 @@ export default function SideBar() {
 
     function handleNavListMouseOver(e: Event & { target: HTMLElement }) {
       if (e.target.matches('a')) {
-        e.target.style.backgroundColor = '#424242';
+        e.target.style.backgroundColor = '#0093E9';
       }
     }
 

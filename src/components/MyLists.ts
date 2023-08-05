@@ -51,7 +51,7 @@ export default function MyLists() {
 
     function handleContainerMouseOver(e: Event & { target: HTMLElement }) {
       if (e.target.matches('a')) {
-        e.target.style.color = '#424242';
+        e.target.style.color = '#0093E9';
       }
     }
 
@@ -100,7 +100,7 @@ export default function MyLists() {
 
     function handleMyListMouseOver(e: Event & { target: HTMLElement }) {
       if (e.target.matches('a')) {
-        e.target.style.backgroundColor = '#424242';
+        e.target.style.backgroundColor = '#0093E9';
       }
     }
 

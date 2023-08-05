@@ -82,6 +82,7 @@ export default function AddTask(props: ViewProps) {
       }
 
       try {
+        console.group(todoData);
         const { title, description, dueDate, priority } = todoData;
         const todo = createTodo({
           listId,

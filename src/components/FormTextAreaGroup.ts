@@ -16,6 +16,8 @@ export default function FormTextAreaGroup(props: FormTextAreaGroupProps) {
   label.style.cssText = props.labelStyles;
 
   const textarea = document.createElement('textarea');
+  textarea.id = props.textAreaId;
+  textarea.name = props.textAreaId;
   textarea.style.cssText = props.textAreaStyles;
 
   container.appendChild(label);
