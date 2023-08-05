@@ -1,5 +1,6 @@
+import ListCard from '../components/ListCard';
 import ListHeading from '../components/ListHeading';
-import TodosCard from '../components/TodosCard';
+import TodoCard from '../components/TodoCard';
 import { ViewProps } from '../router';
 import { listService } from '../services/listService';
 import { todoService } from '../services/todoService';
@@ -19,6 +20,7 @@ export default function ListDetail(props: ViewProps) {
     gap: '2rem',
     backgroundColor: '',
     color: '#ffffff',
+    height: '100%',
   });
 
   props.parent.appendChild(container);
@@ -26,10 +28,12 @@ export default function ListDetail(props: ViewProps) {
   const cardContainer = document.createElement('div');
   cardContainer.style.cssText = inlineStyles({
     display: 'flex',
-    gap: '0.25rem',
+    gap: '1rem',
+    height: '100%',
   });
 
-  cardContainer.appendChild(TodosCard({ todos }));
+  cardContainer.appendChild(ListCard({ todos }));
+  cardContainer.appendChild(TodoCard({}));
 
   container.appendChild(
     ListHeading({

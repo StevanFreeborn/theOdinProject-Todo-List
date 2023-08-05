@@ -1,7 +1,7 @@
+import { Todo } from '../models/todo';
 import { inlineStyles } from '../utils/styles';
-import { Todo } from './../models/todo';
 
-function TodoCard({ todo }: { todo: Todo }) {
+function ListCardTodo({ todo }: { todo: Todo }) {
   const container = document.createElement('div');
   container.style.cssText = inlineStyles({
     display: 'flex',
@@ -41,12 +41,11 @@ function TodoCard({ todo }: { todo: Todo }) {
   return container;
 }
 
-export default function TodosCard({ todos }: { todos: Todo[] }) {
+export default function ListCard({ todos }: { todos: Todo[] }) {
   const card = document.createElement('div');
   card.style.cssText = inlineStyles({
     display: 'flex',
     flexDirection: 'column',
-    justifyContent: 'center',
     padding: '1rem',
     borderRadius: '0.5rem',
     boxShadow: '0px 2px 10px rgba(0, 0, 0, 0.4)',
@@ -70,7 +69,7 @@ export default function TodosCard({ todos }: { todos: Todo[] }) {
 
   todos.forEach(todo => {
     const item = document.createElement('li');
-    item.appendChild(TodoCard({ todo }));
+    item.appendChild(ListCardTodo({ todo }));
     item.id = todo.id;
     list.appendChild(item);
   });
