@@ -43,29 +43,31 @@ export default function ListCard({ todos }: { todos: Todo[] }) {
   });
 
   function handleListClick(e: Event & { target: HTMLElement }) {
-    // TODO: display todo in todo detail card
     const targetTodo = e.target.closest('li');
 
     if (targetTodo === null) {
       return;
     }
 
-    [...list.querySelectorAll('li')].forEach(todo => {
-      if (todo.id === targetTodo.id) {
-        document.dispatchEvent(
-          new CustomEvent('todoClick', { detail: { todoId: todo.id } })
-        );
-        todo.style.cssText = inlineStyles({
-          outline: 'none',
-          boxShadow: '0px 0px 4px 0px #0093e9',
-          transition: 'box-shadow 0.3s ease',
-          borderRadius: '0.5rem',
-        });
-        return;
+    const todos = [...list.querySelectorAll('li')];
+
+    for (const todo of todos) {
+      if (todo.id !== targetTodo.id) {
+        todo.style.cssText = '';
+        continue;
       }
 
-      todo.style.cssText = '';
-    });
+      document.dispatchEvent(
+        new CustomEvent('todoClick', { detail: { todoId: todo.id } })
+      );
+
+      todo.style.cssText = inlineStyles({
+        outline: 'none',
+        boxShadow: '0px 0px 4px 0px #0093e9',
+        transition: 'box-shadow 0.3s ease',
+        borderRadius: '0.5rem',
+      });
+    }
   }
 
   list.addEventListener('click', handleListClick);
