@@ -1,4 +1,5 @@
 import { Todo } from '../models/todo';
+import { navigate } from '../router';
 import { inlineStyles } from '../utils/styles';
 import ListCardTodo from './ListCardTodo';
 
@@ -58,6 +59,10 @@ export default function ListCard({ todos }: { todos: Todo[] }) {
         todo.style.cssText = '';
         continue;
       }
+
+      const url = new URL(window.location.href);
+      url.searchParams.set('todoId', todo.id);
+      navigate(url.toString());
 
       document.dispatchEvent(
         new CustomEvent('todoClick', { detail: { todoId: todo.id } })

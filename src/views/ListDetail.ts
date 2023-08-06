@@ -9,6 +9,7 @@ import { inlineStyles } from '../utils/styles';
 
 export default function ListDetail(props: ViewProps) {
   const { id } = props.pathParams;
+  const { todoId } = props.queryParams;
   const { getListById } = listService();
   const list = getListById({ id });
   const { getTodosByListId, getTodoById } = todoService();
@@ -36,7 +37,7 @@ export default function ListDetail(props: ViewProps) {
   cardContainer.appendChild(ListCard({ todos }));
 
   const todoCard = TodoCard();
-  const todoDetails = TodoDetails({});
+  const todoDetails = TodoDetails({ todo: getTodoById({ todoId }) });
   todoCard.appendChild(todoDetails);
   cardContainer.appendChild(todoCard);
 
