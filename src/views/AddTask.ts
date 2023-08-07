@@ -82,13 +82,13 @@ export default function AddTask(props: ViewProps) {
       }
 
       try {
-        console.group(todoData);
         const { title, description, dueDate, priority } = todoData;
+        const dueDateAsDate = new Date(dueDate + 'T00:00:00.000');
         const todo = createTodo({
           listId,
           title,
           description,
-          dueDate: new Date(dueDate),
+          dueDate: dueDateAsDate,
           priority: Priority[priority],
         });
         const { addTodo } = todoService();

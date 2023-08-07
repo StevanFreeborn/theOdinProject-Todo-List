@@ -170,6 +170,11 @@ function DueDateInput({ todo }: { todo: Todo }) {
     padding: '0.25rem 0.5rem',
   });
 
+  function handleChange() {
+    todo.dueDate = new Date(dueDateInput.value + 'T00:00:00.000');
+    todoService().updateTodo({ todo });
+  }
+
   function handleFocus() {
     dueDateInput.style.backgroundColor = '#2b2a2a';
   }
@@ -178,6 +183,7 @@ function DueDateInput({ todo }: { todo: Todo }) {
     dueDateInput.style.backgroundColor = 'inherit';
   }
 
+  dueDateInput.addEventListener('change', handleChange);
   dueDateInput.addEventListener('focus', handleFocus);
   dueDateInput.addEventListener('blur', handleBlur);
   return dueDateInput;
@@ -234,6 +240,7 @@ function PrioritySelect({ todo }: { todo: Todo }) {
 
   function handleChange() {
     todo.priority = Priority[prioritySelect.value];
+    todoService().updateTodo({ todo });
     prioritySelect.style.backgroundColor = SelectBackground();
     prioritySelect.style.color = SelectColor();
   }
@@ -286,10 +293,16 @@ function DescriptionTextArea({ todo }: { todo: Todo }) {
       outline: 'none',
       fontSize: 'inherit',
       borderRadius: '0.25rem',
+      height: '100%',
     }),
   });
 
   const textArea = descriptionTextAreaFormGroup.querySelector('textarea');
+
+  function handleChange() {
+    todo.description = textArea.value;
+    todoService().updateTodo({ todo });
+  }
 
   function handleFocus() {
     textArea.style.backgroundColor = '#2b2a2a';
@@ -299,6 +312,7 @@ function DescriptionTextArea({ todo }: { todo: Todo }) {
     textArea.style.backgroundColor = 'inherit';
   }
 
+  textArea.addEventListener('change', handleChange);
   textArea.addEventListener('focus', handleFocus);
   textArea.addEventListener('blur', handleBlur);
 
