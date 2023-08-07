@@ -64,7 +64,8 @@ export default function ListCardTodo({ todo }: { todo: Todo }) {
     span.style.cssText = SpanStyles();
   }
 
-  function handleButtonClick() {
+  function handleButtonClick(e: Event) {
+    e.stopPropagation();
     toggleTodoStatus();
     todoService().updateTodo({ todo });
     return;
