@@ -1,5 +1,6 @@
 import { Priority, Todo } from '../models/todo';
 import { listService } from '../services/listService';
+import { formatDateToYYYYMMDD } from '../utils/dates';
 import { inlineStyles } from '../utils/styles';
 import CheckmarkCircleIcon from './CheckmarkCircleIcon';
 import FormTextAreaGroup from './FormTextAreaGroup';
@@ -82,7 +83,10 @@ export default function TodoDetails({ todo }: { todo?: Todo }) {
   const titleInput = document.createElement('input');
   titleInput.id = 'title';
   titleInput.name = 'title';
+  titleInput.type = 'text';
   titleInput.value = todo.title;
+  titleInput.title = 'Title';
+  titleInput.placeholder = 'Title';
   titleInput.style.cssText = inlineStyles({
     fontSize: '1.5rem',
     outline: 'none',
@@ -91,7 +95,6 @@ export default function TodoDetails({ todo }: { todo?: Todo }) {
     color: '#ffffff',
     borderRadius: '0.25rem',
     padding: '0.25rem 0.5rem',
-    width: '100%',
   });
 
   function handleInputFocus(e: Event & { target: HTMLInputElement }) {
@@ -104,6 +107,25 @@ export default function TodoDetails({ todo }: { todo?: Todo }) {
 
   titleInput.addEventListener('focus', handleInputFocus);
   titleInput.addEventListener('blur', handleInputBlur);
+
+  // styles for pseudo elements in index.css
+  const dueDateInput = document.createElement('input');
+  dueDateInput.id = 'dueDate';
+  dueDateInput.name = 'dueDate';
+  dueDateInput.type = 'date';
+  dueDateInput.value = formatDateToYYYYMMDD({ date: todo.dueDate });
+  dueDateInput.style.cssText = inlineStyles({
+    fontSize: '1rem',
+    outline: 'none',
+    border: 'none',
+    backgroundColor: 'inherit',
+    color: '#ffffff',
+    borderRadius: '0.25rem',
+    padding: '0.25rem 0.5rem',
+  });
+
+  dueDateInput.addEventListener('focus', handleInputFocus);
+  dueDateInput.addEventListener('blur', handleInputBlur);
 
   function SelectBackground() {
     if (todo.priority === Priority.High) {
@@ -153,16 +175,25 @@ export default function TodoDetails({ todo }: { todo?: Todo }) {
     return option;
   });
 
-  prioritySelect.addEventListener('change', () => {
+  function handlePrioritySelectChange() {
     todo.priority = Priority[prioritySelect.value];
     prioritySelect.style.backgroundColor = SelectBackground();
     prioritySelect.style.color = SelectColor();
-  });
+  }
 
-  // TODO: add focus ring on priority input
-  // prioritySelect.addEventListener('focus', () =>{
-  //   prioritySelect.style.box
-  // });
+  function handlePrioritySelectFocus() {
+    prioritySelect.style.boxShadow = '0px 0px 0px 4px #2b2a2a';
+    prioritySelect.style.transition = 'box-shadow 0.3s ease';
+  }
+
+  function handlePrioritySelectBlur() {
+    prioritySelect.style.boxShadow = '';
+    prioritySelect.style.transition = '';
+  }
+
+  prioritySelect.addEventListener('change', handlePrioritySelectChange);
+  prioritySelect.addEventListener('focus', handlePrioritySelectFocus);
+  prioritySelect.addEventListener('blur', handlePrioritySelectBlur);
 
   prioritySelect.append(...priorityOptions);
 
@@ -205,6 +236,7 @@ export default function TodoDetails({ todo }: { todo?: Todo }) {
     .addEventListener('blur', handleInputBlur);
 
   form.appendChild(titleInput);
+  form.appendChild(dueDateInput);
   form.appendChild(prioritySelect);
   form.appendChild(descriptionTextAreaFormGroup);
 
