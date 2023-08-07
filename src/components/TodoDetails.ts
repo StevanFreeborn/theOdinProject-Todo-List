@@ -1,10 +1,34 @@
 import { Priority, Todo } from '../models/todo';
 import { listService } from '../services/listService';
+import { todoService } from '../services/todoService';
 import { formatDateToYYYYMMDD } from '../utils/dates';
 import { inlineStyles } from '../utils/styles';
 import CheckmarkCircleIcon from './CheckmarkCircleIcon';
 import FormTextAreaGroup from './FormTextAreaGroup';
 import Link from './Link';
+
+export default function TodoDetails({ todo }: { todo?: Todo }) {
+  if (todo === undefined) {
+    return Placeholder();
+  }
+
+  const container = document.createElement('div');
+  container.style.cssText = inlineStyles({
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '0.5rem',
+    height: '100%',
+    overflow: 'auto',
+  });
+
+  const breadcrumbContainer = BreadcrumbContainer({ todo });
+  const form = Form({ todo });
+
+  container.appendChild(breadcrumbContainer);
+  container.appendChild(form);
+
+  return container;
+}
 
 function Placeholder() {
   const placeholderContainer = document.createElement('div');
@@ -29,24 +53,11 @@ function Placeholder() {
   return placeholderContainer;
 }
 
-export default function TodoDetails({ todo }: { todo?: Todo }) {
-  if (todo === undefined) {
-    return Placeholder();
-  }
-
+function BreadcrumbContainer({ todo }: { todo: Todo }) {
   const list = listService().getListById({ id: todo.listId });
 
   const container = document.createElement('div');
   container.style.cssText = inlineStyles({
-    display: 'flex',
-    flexDirection: 'column',
-    gap: '0.5rem',
-    height: '100%',
-    overflow: 'auto',
-  });
-
-  const breadcrumbContainer = document.createElement('div');
-  breadcrumbContainer.style.cssText = inlineStyles({
     padding: '0 0.5rem',
   });
 
@@ -58,19 +69,23 @@ export default function TodoDetails({ todo }: { todo?: Todo }) {
     }),
   });
 
-  function handleBreadcrumbLinkMouseOver() {
+  function handleLinkMouseOver() {
     breadcrumbLink.style.textDecoration = 'underline';
   }
 
-  function handleBreadcrumbLinkMouseOut() {
+  function handleLinkMouseOut() {
     breadcrumbLink.style.textDecoration = '';
   }
 
-  breadcrumbLink.addEventListener('mouseover', handleBreadcrumbLinkMouseOver);
-  breadcrumbLink.addEventListener('mouseout', handleBreadcrumbLinkMouseOut);
+  breadcrumbLink.addEventListener('mouseover', handleLinkMouseOver);
+  breadcrumbLink.addEventListener('mouseout', handleLinkMouseOut);
 
-  breadcrumbContainer.appendChild(breadcrumbLink);
+  container.appendChild(breadcrumbLink);
 
+  return container;
+}
+
+function Form({ todo }: { todo: Todo }) {
   // TODO: Add listeners to input changes to update todos on blur
   const form = document.createElement('form');
   form.style.cssText = inlineStyles({
@@ -80,6 +95,22 @@ export default function TodoDetails({ todo }: { todo?: Todo }) {
     flex: '1',
   });
 
+  const titleInput = TitleInput({ todo });
+  const dueDateInput = DueDateInput({ todo });
+  const prioritySelect = PrioritySelect({ todo });
+  const descriptionTextAreaFormGroup = DescriptionTextArea({ todo });
+
+  form.appendChild(titleInput);
+  form.appendChild(dueDateInput);
+  form.appendChild(prioritySelect);
+  form.appendChild(descriptionTextAreaFormGroup);
+
+  form.addEventListener('submit', e => e.preventDefault());
+
+  return form;
+}
+
+function TitleInput({ todo }: { todo: Todo }) {
   const titleInput = document.createElement('input');
   titleInput.id = 'title';
   titleInput.name = 'title';
@@ -97,17 +128,28 @@ export default function TodoDetails({ todo }: { todo?: Todo }) {
     padding: '0.25rem 0.5rem',
   });
 
-  function handleInputFocus(e: Event & { target: HTMLInputElement }) {
-    e.target.style.backgroundColor = '#2b2a2a';
+  function handleChange() {
+    todo.title = titleInput.value;
+    todoService().updateTodo({ todo });
+    document.dispatchEvent(new CustomEvent('todoUpdated'));
   }
 
-  function handleInputBlur(e: Event & { target: HTMLInputElement }) {
-    e.target.style.backgroundColor = 'inherit';
+  function handleFocus() {
+    titleInput.style.backgroundColor = '#2b2a2a';
   }
 
-  titleInput.addEventListener('focus', handleInputFocus);
-  titleInput.addEventListener('blur', handleInputBlur);
+  function handleBlur() {
+    titleInput.style.backgroundColor = 'inherit';
+  }
 
+  titleInput.addEventListener('change', handleChange);
+  titleInput.addEventListener('focus', handleFocus);
+  titleInput.addEventListener('blur', handleBlur);
+
+  return titleInput;
+}
+
+function DueDateInput({ todo }: { todo: Todo }) {
   // styles for pseudo elements in index.css
   const dueDateInput = document.createElement('input');
   dueDateInput.id = 'dueDate';
@@ -124,9 +166,20 @@ export default function TodoDetails({ todo }: { todo?: Todo }) {
     padding: '0.25rem 0.5rem',
   });
 
-  dueDateInput.addEventListener('focus', handleInputFocus);
-  dueDateInput.addEventListener('blur', handleInputBlur);
+  function handleFocus() {
+    dueDateInput.style.backgroundColor = '#2b2a2a';
+  }
 
+  function handleBlur() {
+    dueDateInput.style.backgroundColor = 'inherit';
+  }
+
+  dueDateInput.addEventListener('focus', handleFocus);
+  dueDateInput.addEventListener('blur', handleBlur);
+  return dueDateInput;
+}
+
+function PrioritySelect({ todo }: { todo: Todo }) {
   function SelectBackground() {
     if (todo.priority === Priority.High) {
       return 'red';
@@ -175,28 +228,32 @@ export default function TodoDetails({ todo }: { todo?: Todo }) {
     return option;
   });
 
-  function handlePrioritySelectChange() {
+  function handleChange() {
     todo.priority = Priority[prioritySelect.value];
     prioritySelect.style.backgroundColor = SelectBackground();
     prioritySelect.style.color = SelectColor();
   }
 
-  function handlePrioritySelectFocus() {
+  function handleFocus() {
     prioritySelect.style.boxShadow = '0px 0px 0px 4px #2b2a2a';
     prioritySelect.style.transition = 'box-shadow 0.3s ease';
   }
 
-  function handlePrioritySelectBlur() {
+  function handleBlur() {
     prioritySelect.style.boxShadow = '';
     prioritySelect.style.transition = '';
   }
 
-  prioritySelect.addEventListener('change', handlePrioritySelectChange);
-  prioritySelect.addEventListener('focus', handlePrioritySelectFocus);
-  prioritySelect.addEventListener('blur', handlePrioritySelectBlur);
+  prioritySelect.addEventListener('change', handleChange);
+  prioritySelect.addEventListener('focus', handleFocus);
+  prioritySelect.addEventListener('blur', handleBlur);
 
   prioritySelect.append(...priorityOptions);
 
+  return prioritySelect;
+}
+
+function DescriptionTextArea({ todo }: { todo: Todo }) {
   const descriptionTextAreaFormGroup = FormTextAreaGroup({
     containerStyles: inlineStyles({
       display: 'flex',
@@ -228,20 +285,18 @@ export default function TodoDetails({ todo }: { todo?: Todo }) {
     }),
   });
 
-  descriptionTextAreaFormGroup
-    .querySelector('textarea')
-    .addEventListener('focus', handleInputFocus);
-  descriptionTextAreaFormGroup
-    .querySelector('textarea')
-    .addEventListener('blur', handleInputBlur);
+  const textArea = descriptionTextAreaFormGroup.querySelector('textarea');
 
-  form.appendChild(titleInput);
-  form.appendChild(dueDateInput);
-  form.appendChild(prioritySelect);
-  form.appendChild(descriptionTextAreaFormGroup);
+  function handleFocus() {
+    textArea.style.backgroundColor = '#2b2a2a';
+  }
 
-  container.appendChild(breadcrumbContainer);
-  container.appendChild(form);
+  function handleBlur() {
+    textArea.style.backgroundColor = 'inherit';
+  }
 
-  return container;
+  textArea.addEventListener('focus', handleFocus);
+  textArea.addEventListener('blur', handleBlur);
+
+  return descriptionTextAreaFormGroup;
 }

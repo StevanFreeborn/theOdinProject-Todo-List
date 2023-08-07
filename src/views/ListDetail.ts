@@ -12,8 +12,7 @@ export default function ListDetail(props: ViewProps) {
   const { todoId } = props.queryParams;
   const { getListById } = listService();
   const list = getListById({ id });
-  const { getTodosByListId, getTodoById } = todoService();
-  const todos = getTodosByListId({ listId: list?.id });
+  const { getTodoById } = todoService();
 
   const container = document.createElement('div');
   container.style.cssText = inlineStyles({
@@ -34,7 +33,7 @@ export default function ListDetail(props: ViewProps) {
     height: '100%',
   });
 
-  cardContainer.appendChild(ListCard({ todos }));
+  cardContainer.appendChild(ListCard({ listId: list.id }));
 
   const todoCard = TodoCard();
   const todoDetails = TodoDetails({ todo: getTodoById({ todoId }) });

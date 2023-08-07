@@ -1,9 +1,10 @@
-import { Todo } from '../models/todo';
 import { navigate } from '../router';
+import { todoService } from '../services/todoService';
 import { inlineStyles } from '../utils/styles';
 import ListCardTodo from './ListCardTodo';
 
-export default function ListCard({ todos }: { todos: Todo[] }) {
+export default function ListCard({ listId }: { listId: string }) {
+  const todos = todoService().getTodosByListId({ listId });
   const card = document.createElement('div');
   card.style.cssText = inlineStyles({
     display: 'flex',
@@ -36,14 +37,7 @@ export default function ListCard({ todos }: { todos: Todo[] }) {
     gap: '0.25rem',
   });
 
-  const items = todos.map(todo => {
-    const item = document.createElement('li');
-    item.appendChild(ListCardTodo({ todo }));
-    item.id = todo.id;
-    return item;
-  });
-
-  list.append(...items);
+  list.append(...TodoListItems({ listId }));
 
   function handleListClick(e: Event & { target: HTMLElement }) {
     const targetTodo = e.target.closest('li');
@@ -79,7 +73,24 @@ export default function ListCard({ todos }: { todos: Todo[] }) {
 
   list.addEventListener('click', handleListClick);
 
+  function handleTodoUpdate() {
+    list.innerHTML = '';
+    list.append(...TodoListItems({ listId }));
+  }
+
+  document.addEventListener('todoUpdated', handleTodoUpdate);
+
   card.appendChild(list);
 
   return card;
+}
+
+function TodoListItems({ listId }: { listId: string }) {
+  const todos = todoService().getTodosByListId({ listId });
+  return todos.map(todo => {
+    const item = document.createElement('li');
+    item.appendChild(ListCardTodo({ todo }));
+    item.id = todo.id;
+    return item;
+  });
 }
