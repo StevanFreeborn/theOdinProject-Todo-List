@@ -1,4 +1,4 @@
-import { Todo } from '../models/todo';
+import { Priority, Todo } from '../models/todo';
 import { listService } from '../services/listService';
 import { inlineStyles } from '../utils/styles';
 import CheckmarkCircleIcon from './CheckmarkCircleIcon';
@@ -51,7 +51,7 @@ export default function TodoDetails({ todo }: { todo?: Todo }) {
 
   const breadcrumbLink = Link({
     linkText: `My Lists > ${list ? list.name.toUpperCase() : 'INBOX'}`,
-    href: '#',
+    href: list ? `/lists/${list.id}?todoId=${todo.id}` : `/?todoId=${todo.id}`,
     styles: inlineStyles({
       fontSize: '0.75rem',
     }),
@@ -70,6 +70,7 @@ export default function TodoDetails({ todo }: { todo?: Todo }) {
 
   breadcrumbContainer.appendChild(breadcrumbLink);
 
+  // TODO: Add listeners to input changes to update todos on blur
   const form = document.createElement('form');
   form.style.cssText = inlineStyles({
     display: 'flex',
@@ -103,6 +104,67 @@ export default function TodoDetails({ todo }: { todo?: Todo }) {
 
   titleInput.addEventListener('focus', handleInputFocus);
   titleInput.addEventListener('blur', handleInputBlur);
+
+  function SelectBackground() {
+    if (todo.priority === Priority.High) {
+      return 'red';
+    }
+
+    if (todo.priority === Priority.Medium) {
+      return 'yellow';
+    }
+
+    return 'green';
+  }
+
+  function SelectColor() {
+    return todo.priority === Priority.Medium ? 'black' : '#ffffff';
+  }
+
+  const prioritySelect = document.createElement('select');
+  prioritySelect.id = 'priority';
+  prioritySelect.name = 'priority';
+  prioritySelect.style.cssText = inlineStyles({
+    marginLeft: '0.5rem',
+    padding: '0.25rem',
+    border: 'none',
+    outline: 'none',
+    width: 'min-content',
+    backgroundColor: SelectBackground(),
+    color: SelectColor(),
+    fontSize: '0.85rem',
+    borderRadius: '0.25rem',
+    '-moz-appearance': 'none',
+    '-webkit-appearance': 'none',
+    textAlign: 'center',
+  });
+
+  const priorityOptions = ['Low', 'Medium', 'High'].map(o => {
+    const option = document.createElement('option');
+    option.value = o;
+    option.text = o;
+    option.selected = o === todo.priority;
+    option.style.cssText = inlineStyles({
+      padding: '1rem',
+      backgroundColor: '#424242',
+      color: '#ffffff',
+      fontSize: '0.85rem',
+    });
+    return option;
+  });
+
+  prioritySelect.addEventListener('change', () => {
+    todo.priority = Priority[prioritySelect.value];
+    prioritySelect.style.backgroundColor = SelectBackground();
+    prioritySelect.style.color = SelectColor();
+  });
+
+  // TODO: add focus ring on priority input
+  // prioritySelect.addEventListener('focus', () =>{
+  //   prioritySelect.style.box
+  // });
+
+  prioritySelect.append(...priorityOptions);
 
   const descriptionTextAreaFormGroup = FormTextAreaGroup({
     containerStyles: inlineStyles({
@@ -143,6 +205,7 @@ export default function TodoDetails({ todo }: { todo?: Todo }) {
     .addEventListener('blur', handleInputBlur);
 
   form.appendChild(titleInput);
+  form.appendChild(prioritySelect);
   form.appendChild(descriptionTextAreaFormGroup);
 
   container.appendChild(breadcrumbContainer);
