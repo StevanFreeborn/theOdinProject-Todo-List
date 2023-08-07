@@ -105,7 +105,11 @@ function Form({ todo }: { todo: Todo }) {
   form.appendChild(prioritySelect);
   form.appendChild(descriptionTextAreaFormGroup);
 
-  form.addEventListener('submit', e => e.preventDefault());
+  function handleSubmit(e: Event) {
+    e.preventDefault();
+  }
+
+  form.addEventListener('submit', handleSubmit);
 
   return form;
 }
