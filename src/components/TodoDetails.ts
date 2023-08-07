@@ -2,6 +2,7 @@ import { Todo } from '../models/todo';
 import { listService } from '../services/listService';
 import { inlineStyles } from '../utils/styles';
 import CheckmarkCircleIcon from './CheckmarkCircleIcon';
+import FormTextAreaGroup from './FormTextAreaGroup';
 import Link from './Link';
 
 function Placeholder() {
@@ -39,6 +40,8 @@ export default function TodoDetails({ todo }: { todo?: Todo }) {
     display: 'flex',
     flexDirection: 'column',
     gap: '0.5rem',
+    height: '100%',
+    overflow: 'auto',
   });
 
   const breadcrumbContainer = document.createElement('div');
@@ -68,8 +71,16 @@ export default function TodoDetails({ todo }: { todo?: Todo }) {
   breadcrumbContainer.appendChild(breadcrumbLink);
 
   const form = document.createElement('form');
+  form.style.cssText = inlineStyles({
+    display: 'flex',
+    flexDirection: 'column',
+    gap: '0.5rem',
+    flex: '1',
+  });
 
   const titleInput = document.createElement('input');
+  titleInput.id = 'title';
+  titleInput.name = 'title';
   titleInput.value = todo.title;
   titleInput.style.cssText = inlineStyles({
     fontSize: '1.5rem',
@@ -82,18 +93,57 @@ export default function TodoDetails({ todo }: { todo?: Todo }) {
     width: '100%',
   });
 
-  function handleTitleInputFocus() {
-    titleInput.style.backgroundColor = '#2b2a2a';
+  function handleInputFocus(e: Event & { target: HTMLInputElement }) {
+    e.target.style.backgroundColor = '#2b2a2a';
   }
 
-  function handleTitleInputBlur() {
-    titleInput.style.backgroundColor = 'inherit';
+  function handleInputBlur(e: Event & { target: HTMLInputElement }) {
+    e.target.style.backgroundColor = 'inherit';
   }
 
-  titleInput.addEventListener('focus', handleTitleInputFocus);
-  titleInput.addEventListener('blur', handleTitleInputBlur);
+  titleInput.addEventListener('focus', handleInputFocus);
+  titleInput.addEventListener('blur', handleInputBlur);
+
+  const descriptionTextAreaFormGroup = FormTextAreaGroup({
+    containerStyles: inlineStyles({
+      display: 'flex',
+      flexDirection: 'column',
+      gap: '0.25rem',
+      fontSize: '1rem',
+      height: '100%',
+      overflow: 'auto',
+    }),
+    labelText: 'Description',
+    labelStyles: inlineStyles({
+      padding: '0 0.5rem',
+      textTransform: 'uppercase',
+      fontSize: '0.85rem',
+      fontWeight: 'bold',
+    }),
+    textAreaId: 'description',
+    textAreaName: 'description',
+    textAreaValue: todo.description,
+    textAreaStyles: inlineStyles({
+      padding: '0.5rem 0.5rem',
+      resize: 'none',
+      backgroundColor: 'inherit',
+      color: '#ffffff',
+      border: 'none',
+      outline: 'none',
+      fontSize: 'inherit',
+      borderRadius: '0.25rem',
+    }),
+  });
+
+  descriptionTextAreaFormGroup
+    .querySelector('textarea')
+    .addEventListener('focus', handleInputFocus);
+  descriptionTextAreaFormGroup
+    .querySelector('textarea')
+    .addEventListener('blur', handleInputBlur);
 
   form.appendChild(titleInput);
+  form.appendChild(descriptionTextAreaFormGroup);
 
   container.appendChild(breadcrumbContainer);
   container.appendChild(form);

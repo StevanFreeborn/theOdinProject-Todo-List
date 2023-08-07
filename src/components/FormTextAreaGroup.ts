@@ -4,6 +4,7 @@ type FormTextAreaGroupProps = {
   labelStyles?: string;
   textAreaId: string;
   textAreaName: string;
+  textAreaValue?: string;
   textAreaStyles?: string;
 };
 
@@ -18,6 +19,7 @@ export default function FormTextAreaGroup(props: FormTextAreaGroupProps) {
   const textarea = document.createElement('textarea');
   textarea.id = props.textAreaId;
   textarea.name = props.textAreaId;
+  textarea.value = props.textAreaValue;
   textarea.style.cssText = props.textAreaStyles;
 
   container.appendChild(label);
