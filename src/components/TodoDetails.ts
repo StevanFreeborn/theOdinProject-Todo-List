@@ -190,7 +190,7 @@ function DueDateInput({ todo }: { todo: Todo }) {
 }
 
 function PrioritySelect({ todo }: { todo: Todo }) {
-  function SelectBackground() {
+  function getSelectBackground() {
     if (todo.priority === Priority.High) {
       return 'red';
     }
@@ -202,7 +202,7 @@ function PrioritySelect({ todo }: { todo: Todo }) {
     return 'green';
   }
 
-  function SelectColor() {
+  function getSelectColor() {
     return todo.priority === Priority.Medium ? 'black' : '#ffffff';
   }
 
@@ -215,8 +215,8 @@ function PrioritySelect({ todo }: { todo: Todo }) {
     border: 'none',
     outline: 'none',
     width: 'min-content',
-    backgroundColor: SelectBackground(),
-    color: SelectColor(),
+    backgroundColor: getSelectBackground(),
+    color: getSelectColor(),
     fontSize: '0.85rem',
     borderRadius: '0.25rem',
     '-moz-appearance': 'none',
@@ -241,8 +241,8 @@ function PrioritySelect({ todo }: { todo: Todo }) {
   function handleChange() {
     todo.priority = Priority[prioritySelect.value];
     todoService().updateTodo({ todo });
-    prioritySelect.style.backgroundColor = SelectBackground();
-    prioritySelect.style.color = SelectColor();
+    prioritySelect.style.backgroundColor = getSelectBackground();
+    prioritySelect.style.color = getSelectColor();
   }
 
   function handleFocus() {
