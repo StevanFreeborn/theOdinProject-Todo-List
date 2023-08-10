@@ -33,7 +33,7 @@ export default function ListDetail(props: ViewProps) {
     height: '100%',
   });
 
-  cardContainer.appendChild(ListCard({ listId: list.id }));
+  cardContainer.appendChild(ListCard({ listId: list?.id, todoId: todoId }));
 
   const todoCard = TodoCard();
   const todoDetails = TodoDetails({ todo: getTodoById({ todoId }) });

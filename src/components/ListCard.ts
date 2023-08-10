@@ -3,7 +3,13 @@ import { todoService } from '../services/todoService';
 import { inlineStyles } from '../utils/styles';
 import ListCardTodo from './ListCardTodo';
 
-export default function ListCard({ listId }: { listId: string }) {
+export default function ListCard({
+  listId,
+  todoId,
+}: {
+  listId: string;
+  todoId?: string;
+}) {
   const todos = todoService().getTodosByListId({ listId });
   const card = document.createElement('div');
   card.style.cssText = inlineStyles({
@@ -37,7 +43,7 @@ export default function ListCard({ listId }: { listId: string }) {
     gap: '0.25rem',
   });
 
-  list.append(...TodoListItems({ listId }));
+  list.append(...TodoListItems({ listId, todoId }));
 
   function handleListClick(e: Event & { target: HTMLElement }) {
     const targetTodo = e.target.closest('li');
@@ -62,12 +68,7 @@ export default function ListCard({ listId }: { listId: string }) {
         new CustomEvent('todoClick', { detail: { todoId: todo.id } })
       );
 
-      todo.style.cssText = inlineStyles({
-        outline: 'none',
-        boxShadow: '0px 0px 4px 0px #0093e9',
-        transition: 'box-shadow 0.3s ease',
-        borderRadius: '0.5rem',
-      });
+      todo.style.cssText = highlightedItemStyles();
     }
   }
 
@@ -85,12 +86,32 @@ export default function ListCard({ listId }: { listId: string }) {
   return card;
 }
 
-function TodoListItems({ listId }: { listId: string }) {
+function TodoListItems({
+  listId,
+  todoId,
+}: {
+  listId: string;
+  todoId?: string;
+}) {
   const todos = todoService().getTodosByListId({ listId });
   return todos.map(todo => {
     const item = document.createElement('li');
     item.appendChild(ListCardTodo({ todo }));
     item.id = todo.id;
+
+    if (todo.id === todoId) {
+      item.style.cssText = highlightedItemStyles();
+    }
+
     return item;
+  });
+}
+
+function highlightedItemStyles() {
+  return inlineStyles({
+    outline: 'none',
+    boxShadow: '0px 0px 4px 0px #0093e9',
+    transition: 'box-shadow 0.3s ease',
+    borderRadius: '0.5rem',
   });
 }
