@@ -50,3 +50,14 @@ body,
 #root {
   height: 100%;
 }
+
+input#dueDate::-webkit-calendar-picker-indicator {
+  filter: invert(1);
+  cursor: pointer;
+}
+
+input#dueDate::-webkit-datetime-edit-month-field:focus,
+input#dueDate::-webkit-datetime-edit-day-field:focus,
+input#dueDate::-webkit-datetime-edit-year-field:focus {
+  background-color: #424242;
+}

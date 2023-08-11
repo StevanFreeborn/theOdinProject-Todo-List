@@ -1,7 +1,9 @@
+import { ids } from '../constants/elements';
 import { Todo } from '../models/todo';
 import { todoService } from '../services/todoService';
 import { inlineStyles } from '../utils/styles';
 import CheckmarkIcon from './CheckmarkIcon';
+import TodoDetails from './TodoDetails';
 
 export default function ListCardTodo({ todo }: { todo: Todo }) {
   const container = document.createElement('div');
@@ -52,7 +54,6 @@ export default function ListCardTodo({ todo }: { todo: Todo }) {
       todo.complete = true;
       button.innerHTML = '';
       button.appendChild(ButtonText());
-
       span.style.cssText = SpanStyles();
       return;
     }
@@ -60,14 +61,24 @@ export default function ListCardTodo({ todo }: { todo: Todo }) {
     todo.complete = false;
     button.innerHTML = '';
     button.appendChild(ButtonText());
-
     span.style.cssText = SpanStyles();
   }
 
-  function handleButtonClick() {
+  function handleButtonClick(e: Event) {
+    e.stopPropagation();
     toggleTodoStatus();
     todoService().updateTodo({ todo });
-    return;
+
+    const todoCardDetails = document.getElementById(ids.TODO_CARD_DETAILS);
+    const currentTodoId = todoCardDetails.dataset.todoId;
+
+    if (currentTodoId !== todo.id) {
+      return;
+    }
+
+    const todoCard = todoCardDetails.parentElement;
+    todoCard.innerHTML = '';
+    todoCard.appendChild(TodoDetails({ todo }));
   }
 
   button.addEventListener('click', handleButtonClick);

@@ -9,10 +9,10 @@ import { inlineStyles } from '../utils/styles';
 
 export default function ListDetail(props: ViewProps) {
   const { id } = props.pathParams;
+  const { todoId } = props.queryParams;
   const { getListById } = listService();
   const list = getListById({ id });
-  const { getTodosByListId, getTodoById } = todoService();
-  const todos = getTodosByListId({ listId: list?.id });
+  const { getTodoById } = todoService();
 
   const container = document.createElement('div');
   container.style.cssText = inlineStyles({
@@ -33,22 +33,15 @@ export default function ListDetail(props: ViewProps) {
     height: '100%',
   });
 
-  cardContainer.appendChild(ListCard({ todos }));
+  cardContainer.appendChild(ListCard({ listId: list?.id, todoId }));
 
   const todoCard = TodoCard();
-  const todoDetails = TodoDetails({});
+  const todoDetails = TodoDetails({
+    todo: getTodoById({ todoId }),
+  });
+
   todoCard.appendChild(todoDetails);
   cardContainer.appendChild(todoCard);
-
-  function handleTodoClick(e: CustomEvent) {
-    const { todoId } = e.detail;
-    const todo = getTodoById({ todoId });
-    todoCard.innerHTML = '';
-    todoCard.appendChild(TodoDetails({ todo }));
-  }
-
-  document.addEventListener('todoClick', handleTodoClick);
-
   container.appendChild(
     ListHeading({
       headingText: list ? list.name : 'Inbox',

@@ -6,7 +6,16 @@ export function context() {
   const TODOS_KEY = 'todos';
 
   function getItem({ key }: { key: string }) {
-    return JSON.parse(localStorage.getItem(key));
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+    function reviver(key: string, value: any) {
+      if (key === 'dueDate' && typeof value === 'string') {
+        return new Date(value);
+      }
+
+      return value;
+    }
+
+    return JSON.parse(localStorage.getItem(key), reviver);
   }
 
   function setItem({ key, item }: { key: string; item: object }) {
