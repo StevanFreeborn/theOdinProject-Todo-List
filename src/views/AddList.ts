@@ -1,25 +1,68 @@
+import AddButton from '../components/AddButton';
 import CancelButton from '../components/CancelButton';
 import FormInputGroup from '../components/FormInputGroup';
 import { ids } from '../constants/elements';
 import { createList } from '../models/list';
 import { ViewProps, navigate } from '../router';
 import { listService } from '../services/listService';
+import { inlineStyles } from '../utils/styles';
 
 export default function AddList(props: ViewProps) {
   props.parent.appendChild(AddListForm());
 
   function AddListForm() {
     const form = document.createElement('form');
+    form.style.cssText = inlineStyles({
+      display: 'flex',
+      flexDirection: 'column',
+      gap: '1rem',
+      padding: '1rem',
+      borderRadius: '0.5rem',
+      boxShadow: '0px 2px 10px rgba(0, 0, 0, 0.4)',
+      backgroundColor: '#424242',
+      width: 'min-content',
+    });
     form.id = ids.ADD_LIST_FORM;
 
-    const nameInput = FormInputGroup({
+    const nameInputGroup = FormInputGroup({
+      containerStyles: inlineStyles({
+        display: 'flex',
+        flexDirection: 'column',
+        gap: '0.25rem',
+      }),
       labelText: 'Name',
+      labelStyles: inlineStyles({
+        color: '#ffffff',
+        paddingLeft: '0.25rem',
+      }),
       inputId: 'name',
       inputName: 'name',
       inputType: 'text',
+      inputStyles: inlineStyles({
+        fontSize: '1rem',
+        padding: '0.25rem',
+        outline: 'none',
+        backgroundColor: 'inherit',
+        color: '#ffffff',
+        border: '1px solid #2b2a2a',
+        borderRadius: '0.25rem',
+      }),
     });
 
-    form.appendChild(nameInput);
+    const nameInput = nameInputGroup.querySelector('input');
+
+    function handleInputFocus() {
+      nameInput.style.backgroundColor = '#2b2a2a';
+    }
+
+    function handleInputBlur() {
+      nameInput.style.backgroundColor = 'inherit';
+    }
+
+    nameInput.addEventListener('focus', handleInputFocus);
+    nameInput.addEventListener('blur', handleInputBlur);
+
+    form.appendChild(nameInputGroup);
     form.appendChild(Buttons());
 
     function handleFormSubmit(event: Event & { target: HTMLFormElement }) {
@@ -51,12 +94,16 @@ export default function AddList(props: ViewProps) {
 
   function Buttons() {
     const container = document.createElement('div');
+    container.style.cssText = inlineStyles({
+      display: 'flex',
+      alignItems: 'center',
+      justifyContent: 'space-between',
+      gap: '1rem',
+      paddingLeft: '0.25rem',
+    });
 
     const cancelButton = CancelButton();
-
-    const addButton = document.createElement('button');
-    addButton.innerText = 'Add';
-    addButton.type = 'submit';
+    const addButton = AddButton();
 
     container.appendChild(cancelButton);
     container.appendChild(addButton);
