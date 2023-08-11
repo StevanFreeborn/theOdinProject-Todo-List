@@ -24,11 +24,16 @@ export function todoService() {
     return _context.todos.find(t => t.id === todoId);
   }
 
+  function deleteTodoById({ todoId }: { todoId: string }) {
+    _context.todos.findAndRemove(t => t.id === todoId);
+  }
+
   return {
     addTodo,
     getInboxTodos,
     getTodosByListId,
     updateTodo,
     getTodoById,
+    deleteTodoById,
   };
 }

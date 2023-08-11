@@ -62,8 +62,9 @@ export default function ListCard({
 
       const url = new URL(window.location.href);
       url.searchParams.set('todoId', todo.id);
-      navigate(url.toString());
       todo.style.cssText = highlightedItemStyles();
+      document.removeEventListener('todoUpdated', handleTodoUpdate);
+      navigate(url.toString());
     }
   }
 
@@ -71,7 +72,7 @@ export default function ListCard({
 
   function handleTodoUpdate() {
     list.innerHTML = '';
-    list.append(...TodoListItems({ listId }));
+    list.append(...TodoListItems({ listId, todoId }));
   }
 
   document.addEventListener('todoUpdated', handleTodoUpdate);

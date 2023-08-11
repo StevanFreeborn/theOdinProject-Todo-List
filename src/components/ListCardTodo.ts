@@ -4,6 +4,7 @@ import { todoService } from '../services/todoService';
 import { inlineStyles } from '../utils/styles';
 import CheckmarkIcon from './CheckmarkIcon';
 import TodoDetails from './TodoDetails';
+import TrashCanIcon from './TrashCanIcon';
 
 export default function ListCardTodo({ todo }: { todo: Todo }) {
   const container = document.createElement('div');
@@ -22,10 +23,10 @@ export default function ListCardTodo({ todo }: { todo: Todo }) {
       : document.createElement('span');
   }
 
-  const button = document.createElement('button');
-  button.appendChild(ButtonText());
-  button.type = 'button';
-  button.style.cssText = inlineStyles({
+  const completeButton = document.createElement('button');
+  completeButton.appendChild(ButtonText());
+  completeButton.type = 'button';
+  completeButton.style.cssText = inlineStyles({
     display: 'flex',
     alignItems: 'center',
     justifyContent: 'center',
@@ -46,30 +47,39 @@ export default function ListCardTodo({ todo }: { todo: Todo }) {
   span.innerText = todo.title;
   span.style.cssText = SpanStyles();
 
-  container.appendChild(button);
+  const deleteButton = document.createElement('button');
+  deleteButton.appendChild(
+    TrashCanIcon({ height: 16, width: 16, fill: 'currentColor' })
+  );
+  deleteButton.type = 'button';
+  deleteButton.style.cssText = inlineStyles({
+    display: 'flex',
+    alignItems: 'center',
+    justifyContent: 'center',
+    height: '1rem',
+    aspectRatio: '1',
+    color: '#ffffff',
+  });
+
+  container.appendChild(completeButton);
   container.appendChild(span);
 
-  function toggleTodoStatus() {
-    if (todo.complete == false) {
-      todo.complete = true;
-      button.innerHTML = '';
-      button.appendChild(ButtonText());
-      span.style.cssText = SpanStyles();
+  if (todo.complete) {
+    container.appendChild(deleteButton);
+  }
+
+  function handleCompleteButtonClick(e: Event) {
+    e.stopPropagation();
+    todo.complete = !todo.complete;
+    todoService().updateTodo({ todo });
+    document.dispatchEvent(new CustomEvent('todoUpdated'));
+
+    const todoCardDetails = document.getElementById(ids.TODO_CARD_DETAILS);
+
+    if (todoCardDetails.dataset === null) {
       return;
     }
 
-    todo.complete = false;
-    button.innerHTML = '';
-    button.appendChild(ButtonText());
-    span.style.cssText = SpanStyles();
-  }
-
-  function handleButtonClick(e: Event) {
-    e.stopPropagation();
-    toggleTodoStatus();
-    todoService().updateTodo({ todo });
-
-    const todoCardDetails = document.getElementById(ids.TODO_CARD_DETAILS);
     const currentTodoId = todoCardDetails.dataset.todoId;
 
     if (currentTodoId !== todo.id) {
@@ -81,7 +91,30 @@ export default function ListCardTodo({ todo }: { todo: Todo }) {
     todoCard.appendChild(TodoDetails({ todo }));
   }
 
-  button.addEventListener('click', handleButtonClick);
+  completeButton.addEventListener('click', handleCompleteButtonClick);
+
+  function handleDeleteButtonClick(e: Event) {
+    e.stopPropagation();
+    todoService().deleteTodoById({ todoId: todo.id });
+    document.dispatchEvent(new CustomEvent('todoUpdated'));
+    const todoCardDetails = document.getElementById(ids.TODO_CARD_DETAILS);
+
+    if (todoCardDetails.dataset === null) {
+      return;
+    }
+
+    const currentTodoId = todoCardDetails.dataset.todoId;
+
+    if (currentTodoId !== todo.id) {
+      return;
+    }
+
+    const todoCard = todoCardDetails.parentElement;
+    todoCard.innerHTML = '';
+    todoCard.appendChild(TodoDetails({}));
+  }
+
+  deleteButton.addEventListener('click', handleDeleteButtonClick);
 
   function handleContainerMouseOver() {
     container.style.backgroundColor = '#0093e970';
