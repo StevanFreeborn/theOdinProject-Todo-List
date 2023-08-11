@@ -65,7 +65,7 @@ const config = (env, argv): Configuration => {
     },
     devServer: {
       static: {
-        directory: path.join(__dirname, 'dist'),
+        directory: path.join(__dirname, 'src', 'assets'),
       },
       historyApiFallback: true,
       port: 9000,
