@@ -1,3 +1,4 @@
+import AddButton from '../components/AddButton';
 import CancelButton from '../components/CancelButton';
 import FormInputGroup from '../components/FormInputGroup';
 import { ids } from '../constants/elements';
@@ -102,30 +103,7 @@ export default function AddList(props: ViewProps) {
     });
 
     const cancelButton = CancelButton();
-
-    const addButton = document.createElement('button');
-    addButton.innerText = 'Add';
-    addButton.type = 'submit';
-    addButton.style.cssText = inlineStyles({
-      display: 'flex',
-      alignItems: 'center',
-      justifyContent: 'center',
-      border: '1px solid #ffffff',
-      borderRadius: '0.25rem',
-      padding: '0.25rem 1rem',
-      color: '#ffffff',
-    });
-
-    function handleAddButtonMouseOver() {
-      addButton.style.backgroundColor = '#2b2a2a';
-    }
-
-    function handleAddButtonMouseOut() {
-      addButton.style.backgroundColor = 'inherit';
-    }
-
-    addButton.addEventListener('mouseover', handleAddButtonMouseOver);
-    addButton.addEventListener('mouseout', handleAddButtonMouseOut);
+    const addButton = AddButton();
 
     container.appendChild(cancelButton);
     container.appendChild(addButton);

@@ -26,9 +26,14 @@ export default function ListDetail(props: ViewProps) {
 
   props.parent.appendChild(container);
 
+  function getCardContainerDirection() {
+    return window.innerWidth > 1000 ? 'row' : 'column';
+  }
+
   const cardContainer = document.createElement('div');
   cardContainer.style.cssText = inlineStyles({
     display: 'flex',
+    flexDirection: getCardContainerDirection(),
     gap: '1rem',
     height: '100%',
   });
@@ -48,6 +53,12 @@ export default function ListDetail(props: ViewProps) {
       listId: list?.id,
     })
   );
+
+  function handleResize() {
+    cardContainer.style.flexDirection = getCardContainerDirection();
+  }
+
+  window.addEventListener('resize', handleResize);
 
   container.appendChild(cardContainer);
 
