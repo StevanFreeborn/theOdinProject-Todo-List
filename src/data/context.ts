@@ -72,6 +72,16 @@ export function context() {
           _todos[index] = todo;
           setItem({ key: TODOS_KEY, item: _todos });
         },
+        findAndRemove: (predicate: (todo: Todo) => boolean) => {
+          const index = _todos.findIndex(predicate);
+
+          if (index === -1) {
+            return;
+          }
+
+          _todos.splice(index, 1);
+          setItem({ key: TODOS_KEY, item: _todos });
+        },
       };
     },
   };
