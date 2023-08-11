@@ -63,11 +63,6 @@ export default function ListCard({
       const url = new URL(window.location.href);
       url.searchParams.set('todoId', todo.id);
       navigate(url.toString());
-
-      document.dispatchEvent(
-        new CustomEvent('todoClick', { detail: { todoId: todo.id } })
-      );
-
       todo.style.cssText = highlightedItemStyles();
     }
   }

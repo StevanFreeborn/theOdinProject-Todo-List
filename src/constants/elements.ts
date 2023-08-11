@@ -5,4 +5,5 @@ export const ids = {
   MY_LISTS: 'myLists',
   ADD_LIST_FORM: 'addListForm',
   ADD_TASK_FORM: 'addTaskForm',
+  TODO_CARD_DETAILS: 'todoCard',
 };

@@ -1,3 +1,4 @@
+import { ids } from '../constants/elements';
 import { Priority, Todo } from '../models/todo';
 import { listService } from '../services/listService';
 import { todoService } from '../services/todoService';
@@ -13,6 +14,9 @@ export default function TodoDetails({ todo }: { todo?: Todo }) {
   }
 
   const container = document.createElement('div');
+  container.id = ids.TODO_CARD_DETAILS;
+  container.dataset.todoId = todo?.id;
+
   container.style.cssText = inlineStyles({
     display: 'flex',
     flexDirection: 'column',
@@ -28,7 +32,6 @@ export default function TodoDetails({ todo }: { todo?: Todo }) {
 
   container.appendChild(breadcrumbContainer);
   container.appendChild(form);
-
   return container;
 }
 

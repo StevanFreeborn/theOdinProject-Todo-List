@@ -39,33 +39,9 @@ export default function ListDetail(props: ViewProps) {
   const todoDetails = TodoDetails({
     todo: getTodoById({ todoId }),
   });
+
   todoCard.appendChild(todoDetails);
   cardContainer.appendChild(todoCard);
-
-  function handleTodoClick(e: CustomEvent) {
-    const { todoId } = e.detail;
-    const todo = getTodoById({ todoId });
-    todoCard.innerHTML = '';
-    todoCard.appendChild(TodoDetails({ todo }));
-  }
-
-  function handleTodoStatusUpdate(e: CustomEvent) {
-    const targetId = e.detail.todoId;
-
-    if (targetId !== todoId) {
-      return;
-    }
-
-    console.log(targetId);
-    const todo = getTodoById({ todoId: targetId });
-    console.log(todo);
-    todoCard.innerHTML = '';
-    todoCard.appendChild(TodoDetails({ todo }));
-  }
-
-  document.addEventListener('todoClick', handleTodoClick);
-  document.addEventListener('todoStatusUpdated', handleTodoStatusUpdate);
-
   container.appendChild(
     ListHeading({
       headingText: list ? list.name : 'Inbox',
