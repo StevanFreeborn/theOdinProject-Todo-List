@@ -33,10 +33,12 @@ export default function ListDetail(props: ViewProps) {
     height: '100%',
   });
 
-  cardContainer.appendChild(ListCard({ listId: list?.id, todoId: todoId }));
+  cardContainer.appendChild(ListCard({ listId: list?.id, todoId }));
 
   const todoCard = TodoCard();
-  const todoDetails = TodoDetails({ todo: getTodoById({ todoId }) });
+  const todoDetails = TodoDetails({
+    todo: getTodoById({ todoId }),
+  });
   todoCard.appendChild(todoDetails);
   cardContainer.appendChild(todoCard);
 
@@ -47,7 +49,22 @@ export default function ListDetail(props: ViewProps) {
     todoCard.appendChild(TodoDetails({ todo }));
   }
 
+  function handleTodoStatusUpdate(e: CustomEvent) {
+    const targetId = e.detail.todoId;
+
+    if (targetId !== todoId) {
+      return;
+    }
+
+    console.log(targetId);
+    const todo = getTodoById({ todoId: targetId });
+    console.log(todo);
+    todoCard.innerHTML = '';
+    todoCard.appendChild(TodoDetails({ todo }));
+  }
+
   document.addEventListener('todoClick', handleTodoClick);
+  document.addEventListener('todoStatusUpdated', handleTodoStatusUpdate);
 
   container.appendChild(
     ListHeading({

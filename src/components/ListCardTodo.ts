@@ -52,7 +52,6 @@ export default function ListCardTodo({ todo }: { todo: Todo }) {
       todo.complete = true;
       button.innerHTML = '';
       button.appendChild(ButtonText());
-
       span.style.cssText = SpanStyles();
       return;
     }
@@ -60,7 +59,6 @@ export default function ListCardTodo({ todo }: { todo: Todo }) {
     todo.complete = false;
     button.innerHTML = '';
     button.appendChild(ButtonText());
-
     span.style.cssText = SpanStyles();
   }
 
@@ -68,6 +66,11 @@ export default function ListCardTodo({ todo }: { todo: Todo }) {
     e.stopPropagation();
     toggleTodoStatus();
     todoService().updateTodo({ todo });
+    document.dispatchEvent(
+      new CustomEvent('todoStatusUpdated', {
+        detail: { todoId: todo.id },
+      })
+    );
     return;
   }
 

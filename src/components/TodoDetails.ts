@@ -21,6 +21,8 @@ export default function TodoDetails({ todo }: { todo?: Todo }) {
     overflow: 'auto',
   });
 
+  container.style.opacity = todo.complete === true ? '50%' : '';
+
   const breadcrumbContainer = BreadcrumbContainer({ todo });
   const form = Form({ todo });
 
@@ -122,6 +124,7 @@ function TitleInput({ todo }: { todo: Todo }) {
   titleInput.value = todo.title;
   titleInput.title = 'Title';
   titleInput.placeholder = 'Title';
+  titleInput.disabled = todo.complete;
   titleInput.style.cssText = inlineStyles({
     fontSize: '1.5rem',
     outline: 'none',
@@ -160,6 +163,8 @@ function DueDateInput({ todo }: { todo: Todo }) {
   dueDateInput.name = 'dueDate';
   dueDateInput.type = 'date';
   dueDateInput.value = formatDateToYYYYMMDD({ date: todo.dueDate });
+  dueDateInput.title = 'Due Date';
+  dueDateInput.disabled = todo.complete;
   dueDateInput.style.cssText = inlineStyles({
     fontSize: '1rem',
     outline: 'none',
@@ -209,6 +214,8 @@ function PrioritySelect({ todo }: { todo: Todo }) {
   const prioritySelect = document.createElement('select');
   prioritySelect.id = 'priority';
   prioritySelect.name = 'priority';
+  prioritySelect.title = 'Priority';
+  prioritySelect.disabled = todo.complete;
   prioritySelect.style.cssText = inlineStyles({
     marginLeft: '0.5rem',
     padding: '0.25rem',
@@ -298,6 +305,7 @@ function DescriptionTextArea({ todo }: { todo: Todo }) {
   });
 
   const textArea = descriptionTextAreaFormGroup.querySelector('textarea');
+  textArea.disabled = todo.complete;
 
   function handleChange() {
     todo.description = textArea.value;
