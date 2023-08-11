@@ -54,7 +54,10 @@ const config = (env, argv): Configuration => {
         publicPath: publicPath,
       }),
       new CopyPlugin({
-        patterns: [path.resolve(__dirname, 'src', 'assets', 'index.css')],
+        patterns: [
+          path.resolve(__dirname, 'src', 'assets', 'index.css'),
+          path.resolve(__dirname, 'src', 'assets', 'favicon.ico'),
+        ],
       }),
     ],
     optimization: {
