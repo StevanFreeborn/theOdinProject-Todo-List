@@ -88,7 +88,6 @@ function BreadcrumbContainer({ todo }: { todo: Todo }) {
 }
 
 function Form({ todo }: { todo: Todo }) {
-  // TODO: Add listeners to input changes to update todos on blur
   const form = document.createElement('form');
   form.style.cssText = inlineStyles({
     display: 'flex',
