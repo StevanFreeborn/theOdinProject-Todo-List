@@ -6,4 +6,6 @@ export const ids = {
   ADD_LIST_FORM: 'addListForm',
   ADD_TASK_FORM: 'addTaskForm',
   TODO_CARD_DETAILS: 'todoCard',
+  TOGGLE_SIDEBAR_BUTTON: 'toggleSidebarButton',
+  NAV_HEADING: 'navHeading',
 };

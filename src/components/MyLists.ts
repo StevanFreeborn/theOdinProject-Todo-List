@@ -25,6 +25,7 @@ export default function MyLists() {
       justifyContent: 'space-between',
       padding: '0rem 1rem',
       color: '#ffffff',
+      whiteSpace: 'nowrap',
     });
 
     const title = document.createElement('div');
