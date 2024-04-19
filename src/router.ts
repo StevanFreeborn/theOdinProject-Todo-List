@@ -1,9 +1,6 @@
 import AddList from './views/AddList';
 import AddTask from './views/AddTask';
-import AllMyTasks from './views/AllMyTasks';
 import ListDetail from './views/ListDetail';
-import MyDay from './views/MyDay';
-import NextWeek from './views/NextWeek';
 import NotFound from './views/NotFound';
 
 export type ViewProps = {
@@ -26,9 +23,6 @@ type Match = {
 export function router() {
   const routes: Route[] = [
     { path: '/', view: ListDetail },
-    { path: '/my-day', view: MyDay },
-    { path: '/next-seven-days', view: NextWeek },
-    { path: '/tasks', view: AllMyTasks },
     { path: '/tasks/add', view: AddTask },
     { path: '/lists/add', view: AddList },
     { path: '/lists/:id', view: ListDetail },

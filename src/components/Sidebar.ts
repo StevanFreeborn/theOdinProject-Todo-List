@@ -7,12 +7,6 @@ import NavListItem from './NavListItem';
 export default function SideBar() {
   const primaryNavLinkItems = [
     { linkText: 'Inbox', href: '/' },
-    { linkText: 'My Day', href: '/my-day' },
-    {
-      linkText: 'Next 7 Days',
-      href: `/next-seven-days`,
-    },
-    { linkText: 'All my tasks', href: '/tasks' },
   ];
 
   const aside = Aside();
