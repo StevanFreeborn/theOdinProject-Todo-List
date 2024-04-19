@@ -1,6 +1,6 @@
 import './assets/index.css';
 import { ids } from './constants/elements';
-import Layout from './layout';
+import Layout from './Layout';
 import { navigate, router } from './router';
 
 const root = document.getElementById(ids.ROOT);
